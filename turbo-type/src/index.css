@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+* {
+  font-family: "Anton";
+  margin: 0;
+  background-color: transparent;
+}
+body {
+  background-color: #FEECE5;
+}
+.navbar {
+  padding: 0px;
+  display: flex;
+  align-items: center; /* Vertically */
+  margin: 0 auto;
+}
+.navbar #logo {
+  position: relative; 
+  top: 5px;
+  height: 80px;
+}
+.navbar #profile-icon {
+  position: relative; 
+  top: -5px;
+  right: 20px;
+  height: 40px;
+}
+#profile {
+  display: flex;
+  text-decoration: none; 
+  font-size: 20px;
+  position: absolute; 
+  right: -30px;
+  top: 30px;
+}
+.navbar .links {
+  margin-right: auto; 
+}
+.navbar a {
+  color: black;
+  margin-right: 50px;
+  font-size: 30px;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.menu-line {
+  width: 25px;
+  height: 4px;
+  background-color: black;
+  margin-bottom: 5px;
+}
+.collapsed-menu {
+  display: none;
+  margin: 0;
+}
+.content {
+  display: block;
+  margin: 40px auto;
+  padding: 20px;
+}
+/* Mobile navbar menu */
+@media all and (max-width: 480px) {
+  .navbar #logo {
+    height: 50px;
+    position: absolute;
+    top: 20px;
+  }
+  .links {
+    position: absolute;
+    text-align: center;
+    top: 90px;
+    right: -25px;
+    width: 100%;
+  }
+  .navbar-item {
+    display: none;
+    position: relative;
+    border-top: 2px solid black;
+  }
+  .collapsed-menu {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top: 35px;
+    right: 35px;
+  }
+  .navbar #profile-icon {
+    position: relative; 
+    top: -2px;
+    right: 15px;
+    height: 30px;
+  }
+  #profile {
+    display: flex;
+    text-decoration: none; 
+    border-top: none;
+    font-size: 18px;
+    position: absolute; 
+    right: 55px;
+    top: -63px;
+    padding: 5px;
+  }
+  .btn-active {
+    display: block;
+  }
+  .hide-content {
+    display: none;
+  }
+}

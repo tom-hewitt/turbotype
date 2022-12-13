@@ -15,6 +15,9 @@ html {
   display: flex;
   align-items: center; /* Vertically */
   margin: 0 auto;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .navbar #logo {
   filter: invert(57%) sepia(49%) saturate(5266%) hue-rotate(327deg) brightness(98%) contrast(81%);
@@ -43,7 +46,7 @@ html {
   right: 30px;
   padding: 10px;
   background-color: #281502;
-  background-image: linear-gradient(to top, #61370a, #281502);
+  background-image: linear-gradient(to top, #70400d, #281502);
   background-size: 100%;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -54,7 +57,7 @@ html {
 }
 .navbar a {
   background-color: #281502;
-  background-image: linear-gradient(to top, #61370a, #281502);
+  background-image: linear-gradient(to top, #70400d, #281502);
   background-size: 100%;
   background-clip: text; 
   -webkit-text-fill-color: transparent;
@@ -93,9 +96,10 @@ html {
 .content {
   display: block;
   margin: 20px 20px;
+  margin-top: 90px;
   padding: 10px;
 }
-/* Mobile navbar menu */
+/* Mobile navigation menu */
 @media all and (max-width: 850px) {
   .content {
     display: block;
@@ -107,21 +111,22 @@ html {
     top: 15px;
   }
   .links {
-    position: absolute;
+    position: fixed;
     text-align: center;
     top: 90px;
-    right: -14px;
+    right: 10px;
     width: 100%;
   }
   .navbar-item {
     display: none;
     position: relative;
+    width: 100%;
     border-top: 2px solid black;
   }
   .collapsed-menu {
     cursor: pointer;
     display: block;
-    position: absolute;
+    position: fixed;
     top: 33px;
     right: 30px;
   }

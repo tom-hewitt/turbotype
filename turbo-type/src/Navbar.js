@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import profile_icon from './profile_icon.svg';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const openCollapsedMenu = () => {
@@ -13,13 +14,13 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">   
-            <a href="/"><img src={ logo } id="logo" alt="logo" /></a>   
+            <Link to="/"><img src={ logo } id="logo" alt="logo" /></Link>   
             <div className="links">  
-                <a className="navbar-item" href="/play">PLAY</a>
-                <a className="navbar-item" href="/tournaments">TOURNAMENTS</a>
-                <a className="navbar-item" href="/customise">CUSTOMISE</a>
-                <a id="profile" href="/profile"><img src={ profile_icon } id="profile-icon" alt="profile icon" />
-                <div id="profile-name">Adam H</div></a>
+                <Link className="navbar-item" to="/play">PLAY</Link>
+                <Link className="navbar-item" to="/tournaments">TOURNAMENTS</Link>
+                <Link className="navbar-item" to="/customise">CUSTOMISE</Link>
+                <Link id="profile" to="/profile"><img src={ profile_icon } id="profile-icon" alt="profile icon" />
+                <div id="profile-name">Adam H</div></Link>
             </div>
             <div className='collapsed-menu' onClick={ openCollapsedMenu }>
                 <div className='menu-line'></div>

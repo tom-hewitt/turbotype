@@ -22,32 +22,63 @@ html {
   top: 5px;
   height: 60px;
 }
+.navbar #profile {
+  position: fixed;
+  top: 25px;
+  right: 0;
+  height: 20px;
+}
 .navbar #profile-icon {
-  position: absolute;
-  top: 30px;
-  right: 25px;
+  position: relative;
+  right: -55px;
+  top: -10px;
   height: 30px;
 }
 .navbar #profile-name {
   text-decoration: none;
   font-size: 20px;
-  position: absolute;
+  position: relative;
   text-align: right;
-  top: 30px;
-  right: 70px;
+  top: -60px;
+  right: 30px;
+  padding: 10px;
+  background-color: #281502;
+  background-image: linear-gradient(to top, #61370a, #281502);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 .navbar .links {
   margin-right: auto;
 }
 .navbar a {
-  color: black;
+  background-color: #281502;
+  background-image: linear-gradient(to top, #61370a, #281502);
+  background-size: 100%;
+  background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
   margin-right: 30px;
   font-size: 30px;
   text-decoration: none;
   padding: 10px;
 }
 .navbar a:hover {
-  color: #E45F5E;
+  background-color: #E45F5E;
+  background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
+  background-size: 100%;
+  background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+.navbar #profile-name:hover {
+  background-color: #E45F5E;
+  background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
+  background-size: 100%;
+  background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 .menu-line {
   width: 30px;
@@ -96,9 +127,9 @@ html {
   }
   .navbar #profile-icon {
     display: flex;
-    position: absolute;
-    top: -60px;
-    right: 105px;
+    position: relative;
+    right: 40px;
+    top: -5px;
   }
   #profile-name {
     display: none;

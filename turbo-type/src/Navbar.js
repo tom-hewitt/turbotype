@@ -18,7 +18,7 @@ const Navbar = () => {
                 <a className="navbar-item" href="/play">PLAY</a>
                 <a className="navbar-item" href="/tournaments">TOURNAMENTS</a>
                 <a className="navbar-item" href="/customise">CUSTOMISE</a>
-                <a href="/profile"><img src={ profile_icon } id="profile-icon" alt="profile icon" />
+                <a id="profile" href="/profile"><img src={ profile_icon } id="profile-icon" alt="profile icon" />
                 <div id="profile-name">Adam H</div></a>
             </div>
             <div className='collapsed-menu' onClick={ openCollapsedMenu }>

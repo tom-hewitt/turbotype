@@ -1,0 +1,6 @@
+{
+  "extends": "../tsconfig.json",   // extend the projects base configuration
+  "compilerOptions": {
+    "composite": true
+  }
+}

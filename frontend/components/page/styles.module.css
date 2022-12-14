@@ -5,3 +5,23 @@
 .content {
   padding: 0px 30px 30px 30px;
 }
+
+.gradient {
+  position: absolute;
+  width: 937.23px;
+  height: 476.51px;
+  left: 100px;
+  top: -480px;
+
+  opacity: 1;
+  filter: blur(60px);
+  transform: matrix(0.99, 0.14, 0.14, -0.99, 0, 0);
+
+  pointer-events: none;
+
+  z-index: 100;
+}
+
+.gradientShape {
+  background: linear-gradient(268.14deg, rgba(255, 0, 0, 0.5) 7.5%, rgba(229, 196, 110, 0.5) 96.25%);
+}

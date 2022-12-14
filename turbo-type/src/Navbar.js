@@ -15,27 +15,27 @@ const Navbar = () => {
                     <img src={logo} id="logo" alt="logo" />
                 </Link>
                 <div className="links">
-                    <Link to="/play">PLAY</Link>
-                    <Link to="/tournaments">TOURNAMENTS</Link>
-                    <Link to="/customise">CUSTOMISE</Link>
-                    <Link id="profile" to="/profile">
-                        <img src={ profile_icon } id="profile-icon" alt="profile icon" />
-                        <div id="profile-name">Adam H</div>
-                    </Link>
+                    <Links />
                 </div>
                 <CollapsedMenuButton onClick={toggleCollapsedMenu} />
             </nav>
             {showCollapsedMenu ? 
-                <div className="collapsed-menu">
-                    <Link to="/play">PLAY</Link>
-                    <Link to="/tournaments">TOURNAMENTS</Link>
-                    <Link to="/customise">CUSTOMISE</Link>
-                    <Link id="profile" to="/profile">
-                        <img src={ profile_icon } id="profile-icon" alt="profile icon" />
-                        <div id="profile-name">Adam H</div>
-                    </Link>
-                </div>
+                <CollapsedMenu />
             : null}
+        </>
+    );
+}
+
+const Links = () => {
+    return (
+        <>
+            <Link to="/play">PLAY</Link>
+            <Link to="/tournaments">TOURNAMENTS</Link>
+            <Link to="/customise">CUSTOMISE</Link>
+            <Link id="profile" to="/profile">
+                <img src={ profile_icon } id="profile-icon" alt="profile icon" />
+                <div id="profile-name">Adam H</div>
+            </Link>
         </>
     );
 }
@@ -47,6 +47,14 @@ const CollapsedMenuButton = (props) => {
             <div className='menu-line'></div>
             <div className='menu-line'></div>
         </button>
+    );
+}
+
+const CollapsedMenu = () => {
+    return (
+        <div className="collapsed-menu">
+            <Links />
+        </div>
     );
 }
  

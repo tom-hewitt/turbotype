@@ -2,4 +2,11 @@
   font-size: 60px;
 
   margin: 0px;
+
+  background-color: #281502;
+  background-image: linear-gradient(to top, #70400d, #281502);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }

@@ -1,3 +1,5 @@
+import styles from "./styles.module.css";
+
 export const Logo = ({
   width = 135,
   height = 59,
@@ -7,6 +9,7 @@ export const Logo = ({
 }) => {
   return (
     <svg
+      className={styles.logo}
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}

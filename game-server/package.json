@@ -1,0 +1,9 @@
+{
+  "name": "@turbotype/game-server",
+  "scripts": {
+    "dev": "echo \"server isn't implemented yet!!\""
+  },
+  "devDependencies": {
+    "bun-types": "^0.3.0"
+  }
+}

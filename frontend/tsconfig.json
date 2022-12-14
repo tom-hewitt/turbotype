@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    // ---- LANGUAGE AND ENVIRONMENT ----
+    "target": "ES6", // makes typescript compile to ES6 JavaScript, which runs on all modern web browsers
+    "lib": [ // the built-in libraries we need
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "jsx": "preserve", // preserve the JSX so nextJS can use its own optimised JSX compiler
+    // ---- MODULES ----
+    "module": "ESNext", // use the most modern module system
+    "moduleResolution": "node", // use the node module resolution system
+    // ---- EMIT ----
+    "noEmit": true, // nextJS uses its own compiler so don't emit JS code using the standard compiler
+    // ---- PROJECTS ----
+    "incremental": true, // enables incremental compilation, which is faster
+    
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

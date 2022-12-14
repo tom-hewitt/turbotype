@@ -1,0 +1,23 @@
+{
+  "name": "turbotype",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "ssh://gitlab@gitlab.cs.man.ac.uk:22222/v48701ah/firstyearteamproject.git"
+  },
+  "contributors": [
+    "Adam Howard",
+    "Jiamin Jiang",
+    "Ka Man Chiu",
+    "Thivisha Uthayakumar",
+    "Thomas Hewitt",
+    "Weiyuan Xu"
+  ],
+  "workspaces": [
+    "frontend",
+    "game-server"
+  ],
+  "dependencies": {
+    "@next/font": "^13.0.6"
+  }
+}

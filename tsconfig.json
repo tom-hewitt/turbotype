@@ -1,0 +1,34 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./frontend/tsconfig.ref.json"
+    },
+    {
+      "path": "./game-server/tsconfig.ref.json"
+    }
+  ],
+
+  "compilerOptions": {
+    // ---- TYPE CHECKING OPTIONS ----
+    "allowUnreachableCode": false,                // show an error if there is code that will never be reached
+    "allowUnusedLabels": false,                   // an unused label usually happens when you meant to create an object, so show an error
+    "exactOptionalPropertyTypes": false,          // turn this off because it prevents the use of ? to signify an optional property - this is fine as long as we use null to represent a value that is deliberately empty rather than just missing
+    "noFallthroughCasesInSwitch": true,           // prevents bugs where you forget to break from a switch case
+    "noImplicitOverride": true,                   // stops accidental method overriding
+    "noImplicitReturns": true,                    // makes sure that all code paths in a function return a value if the function is supposed to
+    "noPropertyAccessFromIndexSignature": true,   // highlights the difference between properties that definitely exist, and properties that might exist
+    "noUncheckedIndexedAccess": true,             // makes sure you handle the undefined case for a index that might not exist
+    "noUnusedLocals": true,                       // prevents unnecessary variables
+    "noUnusedParameters": true,                   // prevents unnecessary parameters
+
+    "strict": true,                               // enables all strict mode options
+
+    // ---- MODULES ----
+    "resolveJsonModule": true,                    // allows importing JSON files
+
+    // ---- INTEROP CONSTRAINTS ----
+    "forceConsistentCasingInFileNames": true,     // prevents issues where different operating systems have different case sensitivity rules
+    "isolatedModules": true,                      // prevents compilation issues with enums and namespaces
+  }
+}

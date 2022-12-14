@@ -1,4 +1,10 @@
+import { Heading } from "../../components/heading";
+import { Page } from "../../components/page";
+
 export default function Customise() {
-  // todo: make the customise page!
-  return <h1>Customise</h1>;
+  return (
+    <Page colour="#FFABB0">
+      <Heading>CUSTOMISE</Heading>
+    </Page>
+  );
 }

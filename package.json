@@ -16,5 +16,8 @@
   "workspaces": [
     "frontend",
     "game-server"
-  ]
+  ],
+  "dependencies": {
+    "@next/font": "^13.0.6"
+  }
 }

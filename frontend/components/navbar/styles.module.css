@@ -1,0 +1,72 @@
+.navbar {
+  height: 120px;
+  padding: 0px 30px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+}
+
+.navlink {
+  font-size: 30px;
+
+  color: black;
+}
+
+.profile {
+  padding: 10px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.profileName {
+  color: black;
+}
+
+.collapsedMenuButton {
+  display: none;
+}
+
+.collapsedMenu {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .links {
+    display: none;
+  }
+
+  .collapsedMenuButton {
+    display: block
+  }
+
+  .collapsedMenu {
+    position: fixed;
+
+    padding: 10px 30px;
+
+    display: flex;
+    flex-direction: column;
+    top: 120px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    background-color: white;
+  }
+
+  .profileName {
+    display: none;
+  }
+}

@@ -1,4 +1,10 @@
+import { Heading } from "../../components/heading";
+import { Page } from "../../components/page";
+
 export default function Tournaments() {
-  // todo: make the tournaments page!
-  return <h1>Tournaments</h1>;
+  return (
+    <Page colour="#FFD89E">
+      <Heading>TOURNAMENTS</Heading>
+    </Page>
+  );
 }

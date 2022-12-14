@@ -1,4 +1,10 @@
+import { Heading } from "../../components/heading";
+import { Page } from "../../components/page";
+
 export default function Leaderboard() {
-  // todo: make the leaderboard page!
-  return <h1>Leaderboard</h1>;
+  return (
+    <Page colour="#FFECE4">
+      <Heading>LEADERBOARD</Heading>
+    </Page>
+  );
 }

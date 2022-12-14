@@ -5,11 +5,13 @@
   margin: 0;
   background-color: transparent;
 }
+
 html {
   background-color: #FEECE5;
   background: linear-gradient(to top, #FEECE5 5%, #FECDC3 95%);
   height: 100%;
 }
+
 .navbar {
   padding: 0px;
   display: flex;
@@ -20,24 +22,29 @@ html {
   left: 0;
   height: 90px;
 }
+
 .navbar #logo {
   filter: invert(57%) sepia(49%) saturate(5266%) hue-rotate(327deg) brightness(98%) contrast(81%);
   position: relative;
   top: 5px;
   height: 60px;
 }
+
 .navbar #profile {
   position: fixed;
   top: 25px;
   right: 0;
   height: 20px;
 }
+
 .navbar #profile-icon {
   position: relative;
   right: -55px;
   top: -10px;
   height: 30px;
+  width: 30px;
 }
+
 .navbar #profile-name {
   text-decoration: none;
   font-size: 20px;
@@ -53,9 +60,11 @@ html {
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
+
 .navbar .links {
   margin-right: auto;
 }
+
 .navbar a {
   background-color: #281502;
   background-image: linear-gradient(to top, #70400d, #281502);
@@ -68,6 +77,7 @@ html {
   text-decoration: none;
   padding: 10px;
 }
+
 .navbar a:hover {
   background-color: #E45F5E;
   background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
@@ -76,6 +86,7 @@ html {
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
+
 .navbar #profile-name:hover {
   background-color: #E45F5E;
   background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
@@ -84,6 +95,7 @@ html {
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
+
 .menu-line {
   width: 30px;
   height: 4px;
@@ -105,7 +117,7 @@ html {
 .collapsed-menu > a {
   border-top: 2px solid black;
 
-  padding: 20px;
+  padding: 20px 0px;
 
   background-color: #281502;
   background-image: linear-gradient(to top, #70400d, #281502);
@@ -116,6 +128,16 @@ html {
   margin-right: 30px;
   font-size: 30px;
   text-decoration: none;
+  width: 100%;
+}
+
+.collapsed-menu > a:hover {
+  background-color: #E45F5E;
+  background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
+  background-size: 100%;
+  background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 
 .content {
@@ -150,11 +172,11 @@ html {
     right: 30px;
   }
 
-  .navbar #profile-icon {
+  .navbar #profile-icon {   
     display: flex;
-    position: relative;
-    right: 40px;
-    top: -5px;
+    position: absolute;
+    right: 55px;
+    top: 6px;
   }
 
   #profile-name {
@@ -167,6 +189,10 @@ html {
 
     display: flex;
     flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+    text-align: center; 
 
     background-color: #FEECE5;
     background: linear-gradient(to top, #FEECE5 5%, #FECDC3 95%);

@@ -5,7 +5,7 @@
       "path": "./frontend/tsconfig.ref.json"
     },
     {
-      "path": "./server/tsconfig.ref.json"
+      "path": "./game-server/tsconfig.ref.json"
     }
   ],
 

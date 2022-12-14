@@ -1,5 +1,5 @@
 {
-  "name": "@turbotype/server",
+  "name": "@turbotype/game-server",
   "scripts": {
     "dev": "echo \"server isn't implemented yet!!\""
   },

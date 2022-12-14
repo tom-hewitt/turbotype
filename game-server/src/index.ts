@@ -1,6 +1,10 @@
 import { Server } from "bun";
 
+console.log("Opening game server on port 8080");
+
 Bun.serve({
+  port: 8080,
+
   /**
    * Called when a HTTP requeset is recevied
    * @param req the HTTP request

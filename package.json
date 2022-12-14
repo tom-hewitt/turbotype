@@ -14,7 +14,7 @@
     "Weiyuan Xu"
   ],
   "workspaces": [
-    "server",
-    "frontend"
+    "frontend",
+    "game-server"
   ]
 }

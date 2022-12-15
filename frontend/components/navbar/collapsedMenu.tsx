@@ -42,7 +42,7 @@ const MenuIcon = () => {
       <path
         d="M0 1.5H23.5M0 10H23.5M0 18.5H23.5"
         stroke="black"
-        strokeWidth="2"
+        strokeWidth="3"
       />
     </svg>
   );

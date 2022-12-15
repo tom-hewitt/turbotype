@@ -44,8 +44,7 @@
 }
 
 .profileName {
-  color: black;
-
+  text-transform: capitalize;
   background-color: #281502;
   background-image: linear-gradient(to top, #70400d, #281502);
   background-size: 100%;

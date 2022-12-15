@@ -18,9 +18,9 @@ export const NavBar = ({ colour }: { colour: string }) => {
         <NavLinks />
       </div>
       <Spacer />
-      <Link href="/profile/thomas" className={styles.profile}>
+      <Link href="/profile/" className={styles.profile}>
         <span className={styles.profileName}>
-          <Text>thomas</Text>
+          <Text>Adam</Text>
         </span>
         <ProfileIcon />
       </Link>

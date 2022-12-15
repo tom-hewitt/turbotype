@@ -51,8 +51,81 @@
 
 .rectangle {
     margin: 1%;
-    padding: 20px;
+    padding: 2%;
     border-radius: 15px;
+    transform: scale(1);
+    transition: 0.15s all ease;
+}
+
+.rectangleTitle {
+    font-size: 40px;
+    margin-left: 2%;
+}
+
+.rectangleDesc {
+    margin-left: 2%;
+}
+
+.play > .rectangleTitle {
+    margin-left: 3%;
+    font-size: 80px;
+}
+
+.play > .rectangleDesc {
+    margin-left: 3%;
+}
+
+.rectangle:hover {
+    cursor: pointer;
+    transform: scale(0.95);
+}
+
+.play > .rectangleTitle {
+    background-image: linear-gradient(to top, #ffffff69, white);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.tournaments > .rectangleTitle {
+    background-image: linear-gradient(to top, #ffffff69, white);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.customise > .rectangleTitle {
+    background-image: linear-gradient(to top, #ffffff69, white);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.practice > .rectangleTitle {
+    background-image: linear-gradient(to top, #70400d, #281502);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.leaderboard > .rectangleTitle {
+    background-image: linear-gradient(to top, #70400d, #281502);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.create > .rectangleTitle {
+    background-image: linear-gradient(to top, #70400d, #281502);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
 }
 
 .play {
@@ -109,6 +182,23 @@
       margin: 1.5%;
       padding: 20px;
       border-radius: 15px;
+    }
+    .rectangleTitle {
+        font-size: 20px;
+        margin: 0;
+    }
+    
+    .rectangleDesc {
+        margin: 0;
+    }
+    
+    .play > .rectangleTitle {
+        margin: 0;
+        font-size: 40px;
+    }
+    
+    .play > .rectangleDesc {
+        margin: 0;
     }
 
     .play {

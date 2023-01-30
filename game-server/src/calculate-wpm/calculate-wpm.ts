@@ -1,11 +1,12 @@
 /**
  * 
- * @param time_elapsed time in seconds calculated from when the race starts
- * @param chars_num this increases every time checkInput returns true
+ * @param seconds_elapsed time in seconds calculated from when the race starts
+ * @param character_count the number of characters typed over the given time period
  * @returns wpm
  */
-
-export function calculateWPM(time_elapsed: number, chars_num: number):number{
-
-    return Math.round((chars_num/5)/(time_elapsed/60));
+export function calculate_WPM(seconds_elapsed: number, character_count: number): number {
+    const word_count = chars_num / 5;
+    const minutes_elapsed = seconds_elapsed / 60;
+    
+    return word_count / minutes_elapsed;
 }

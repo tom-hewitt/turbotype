@@ -16,12 +16,5 @@
   "workspaces": [
     "frontend",
     "game-server"
-  ],
-  "dependencies": {
-    "@next/font": "^13.0.6",
-    "@react-three/drei": "^9.46.7",
-    "@react-three/fiber": "^8.9.1",
-    "classnames": "^2.3.2",
-    "three": "^0.147.0"
-  }
+  ]
 }

@@ -27,17 +27,17 @@ const HomeGrid: React.FC = () => {
   return (
     <div className={styles.grid}>
       <HomeGridColumn fractionalWidth={0.375}>
-        <PlayButton flex={0.7} />
-        <TournamentsButton flex={0.3} />
+        <PlayButton fractionalHeight={0.7} />
+        <TournamentsButton fractionalHeight={0.3} />
       </HomeGridColumn>
       <HomeGridColumn fractionalWidth={0.3}>
-        <PracticeButton flex={0.4} />
-        <CreateRaceButton flex={0.6} />
+        <PracticeButton fractionalHeight={0.4} />
+        <CreateRaceButton fractionalHeight={0.6} />
       </HomeGridColumn>
       <HomeGridColumn fractionalWidth={0.325}>
-        <LeaderboardButton flex={0.4} />
-        <CustomiseButton flex={0.5} />
-        <SettingsButton flex={0.1} />
+        <LeaderboardButton fractionalHeight={0.4} />
+        <CustomiseButton fractionalHeight={0.5} />
+        <SettingsButton fractionalHeight={0.1} />
       </HomeGridColumn>
     </div>
   );

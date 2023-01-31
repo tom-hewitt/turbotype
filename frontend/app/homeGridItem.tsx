@@ -103,12 +103,14 @@ export const HomeGridItem: React.FC<{
   );
 };
 
-export const PlayButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const PlayButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="PLAY"
     subheading="join an online race"
     href="/play"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     largeText
     background="#FB6A6A"
     camera={{
@@ -139,24 +141,28 @@ export const PlayButton: React.FC<{ flex: number }> = ({ flex }) => (
   />
 );
 
-export const TournamentsButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const TournamentsButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="TOURNAMENTS"
     subheading="fight for the trophy!"
     href="/tournaments"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     darkText
     background="linear-gradient(180deg, #EB7070 0%, #FFD89E 0.01%, #FBC16A 91.67%)"
     model={() => null}
   />
 );
 
-export const PracticeButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const PracticeButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="PRACTICE"
     subheading="hone your skills"
     href="/practice"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     darkText
     background="#FFD8B3"
     model={({ isHovered }) => (
@@ -179,46 +185,54 @@ export const PracticeButton: React.FC<{ flex: number }> = ({ flex }) => (
   />
 );
 
-export const CreateRaceButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const CreateRaceButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="CREATE RACE"
     subheading="race with friends"
     href="/create"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     darkText
     background="#EFEFEF"
     model={() => null}
   />
 );
 
-export const LeaderboardButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const LeaderboardButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="LEADERBOARD"
     subheading="where do you rank?"
     href="/leaderboard"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     darkText
     background="#FFECE4"
     model={() => null}
   />
 );
 
-export const CustomiseButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const CustomiseButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="CUSTOMISE"
     subheading="show off your style"
     href="/customise"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     background="#FFABB0"
     model={() => null}
   />
 );
 
-export const SettingsButton: React.FC<{ flex: number }> = ({ flex }) => (
+export const SettingsButton: React.FC<{ fractionalHeight: number }> = ({
+  fractionalHeight,
+}) => (
   <HomeGridItem
     name="SETTINGS"
     href="/customise"
-    fractionalHeight={flex}
+    fractionalHeight={fractionalHeight}
     background="#6D6D6D"
     model={() => null}
   />

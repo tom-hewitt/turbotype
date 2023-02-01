@@ -16,5 +16,11 @@
   "workspaces": [
     "frontend",
     "game-server"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm -w frontend run dev\" \"npm -w game-server run dev\""
+  }
 }

@@ -1,6 +1,9 @@
 import { Server } from "bun";
+import { GameServer } from "./game";
 
 console.log("Opening game server on port 8080");
+
+let game: GameServer;
 
 Bun.serve({
   port: 8080,
@@ -25,8 +28,15 @@ Bun.serve({
     /**
      * Called when a new websocket connection opens, i.e. when a new client connects.
      */
-    open() {
+    open(socket) {
       console.log("A player joined the race!");
+
+      game = new GameServer({
+        onNewWord(word) {
+          console.log("sending new word:", word);
+          socket.send(word);
+        },
+      });
     },
 
     /**
@@ -35,7 +45,7 @@ Bun.serve({
      * @param message the message
      */
     message(ws, message) {
-      console.log(message);
+      game.keyInput(message as string);
     },
 
     /**

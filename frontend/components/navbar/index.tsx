@@ -8,6 +8,23 @@ import { Text } from "../text";
 import { CollapsedMenu } from "./collapsedMenu";
 import styles from "./styles.module.css";
 
+export const HomeNavBar = () => {
+  return (
+    <nav className={styles.navbar}>
+      <Link href="/">
+        <Logo />
+      </Link>
+      <Spacer />
+      <Link href="/profile/" className={styles.profile}>
+        <span className={styles.profileName}>
+          <Text>Adam</Text>
+        </span>
+        <ProfileIcon />
+      </Link>
+    </nav>
+  );
+};
+
 export const NavBar = ({ colour }: { colour: string }) => {
   return (
     <nav className={styles.navbar}>

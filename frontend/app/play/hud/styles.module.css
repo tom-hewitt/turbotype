@@ -1,0 +1,14 @@
+.word {
+  width: 100vw;
+  text-align: center;
+
+  font-size: 100px;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}

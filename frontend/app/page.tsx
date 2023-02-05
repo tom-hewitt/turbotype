@@ -1,59 +1,53 @@
 import React from "react";
 import styles from "./styles.module.css";
-import classNames from 'classnames';
-import Link from "next/link";
-import { Logo } from "../components/logo";
-import { ProfileIcon } from "../components/profileIcon";
-import { Spacer } from "../components/spacer";
-import { Text } from "../components/text";
-import { anton } from "./layout";
-import { inter } from "./layout";
 
-import { Canvas } from "@react-three/fiber";
-import Car from "../components/homepage3DAssets/car";
+import {
+  CreateRaceButton,
+  CustomiseButton,
+  LeaderboardButton,
+  PlayButton,
+  PracticeButton,
+  SettingsButton,
+  TournamentsButton,
+} from "./homeGridItem";
+import { HomeNavBar } from "../components/navbar";
+
+const HomeGridColumn: React.FC<{
+  fractionalWidth: number;
+  children: React.ReactNode;
+}> = ({ fractionalWidth: flex, children }) => {
+  return (
+    <div className={styles.column} style={{ flex }}>
+      {children}
+    </div>
+  );
+};
+
+const HomeGrid: React.FC = () => {
+  return (
+    <div className={styles.grid}>
+      <HomeGridColumn fractionalWidth={0.375}>
+        <PlayButton fractionalHeight={0.7} />
+        <TournamentsButton fractionalHeight={0.3} />
+      </HomeGridColumn>
+      <HomeGridColumn fractionalWidth={0.3}>
+        <PracticeButton fractionalHeight={0.4} />
+        <CreateRaceButton fractionalHeight={0.6} />
+      </HomeGridColumn>
+      <HomeGridColumn fractionalWidth={0.325}>
+        <LeaderboardButton fractionalHeight={0.4} />
+        <CustomiseButton fractionalHeight={0.5} />
+        <SettingsButton fractionalHeight={0.1} />
+      </HomeGridColumn>
+    </div>
+  );
+};
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <div className={styles.pageTop}>
-        <Link href="/">
-          <Logo />
-        </Link>
-        <Spacer />
-        <Link href="/profile/" className={styles.profile}>
-          <span className={styles.profileName}>
-            <Text>Adam</Text>
-          </span>
-          <ProfileIcon />
-        </Link>
-      </div>
-      <div className={styles.wrapper}>
-          <div className={classNames(styles.play, styles.rectangle, anton.className)}>
-            <div className={classNames(anton.className, styles.rectangleTitle)}>PLAY</div>
-            <div className={classNames(inter.className, styles.rectangleDesc)}>Join a race.</div>
-            
-          </div>
-          <div className={classNames(styles.practice, styles.rectangle)}>
-            <div className={classNames(anton.className, styles.rectangleTitle)}>PRACTICE</div>
-            <div className={classNames(inter.className, styles.rectangleDesc)}>Hone your skills.</div>
-          </div>
-          <div className={classNames(styles.leaderboard, styles.rectangle)}>
-            <div className={classNames(anton.className, styles.rectangleTitle)}>LEADERBOARD</div>
-            <div className={classNames(inter.className, styles.rectangleDesc)}>Where do you rank?</div>
-          </div>
-          <div className={classNames(styles.tournaments, styles.rectangle)}>
-            <div className={classNames(anton.className, styles.rectangleTitle)}>TOURNAMENTS</div>
-            <div className={classNames(inter.className, styles.rectangleDesc)}>Compete against others!</div>
-          </div>
-          <div className={classNames(styles.create, styles.rectangle)}>
-            <div className={classNames(anton.className, styles.rectangleTitle)}>CREATE RACE</div>
-            <div className={classNames(inter.className, styles.rectangleDesc)}>Race with friends.</div>
-          </div>
-          <div className={classNames(styles.customise, styles.rectangle)}>
-            <div className={classNames(anton.className, styles.rectangleTitle)}>CUSTOMISE</div>
-            <div className={classNames(inter.className, styles.rectangleDesc)}>Show off your swag.</div>
-          </div>
-      </div>
+      <HomeNavBar />
+      <HomeGrid />
     </div>
   );
 }

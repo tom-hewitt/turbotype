@@ -45,7 +45,7 @@ Bun.serve({
      * @param message the message
      */
     message(ws, message) {
-      game.keyInput(message as string);
+      game.handleKeyInput(message as string);
     },
 
     /**

@@ -8,13 +8,8 @@ const COUNTDOWN_DURATION = 3;
 
 const BASE_SPEED = 10;
 
-const BOOST_AMOUNT = 20;
-
-const PENALTY_AMOUNT = 5;
-
-/**
- * has to be a factor of BOOST_AMOUNT
- */
+const SPEED_BOOST_AMOUNT = 20;
+const SPEED_PENALTY_AMOUNT = 5;
 const SPEED_RECOVERY_RATE = 1;
 
 export class GameServer {
@@ -28,7 +23,7 @@ export class GameServer {
   word = randomWord();
   index = 0;
 
-  lastCharacterIncorrect = false;
+  incorrectCount = 0;
 
   constructor(client: GameClient) {
     this.client = client;
@@ -36,57 +31,29 @@ export class GameServer {
     setTimeout(this.startRace, COUNTDOWN_DURATION);
   }
 
-  startRace = () => {
-    this.started = true;
-
-    this.client.onNewWord(this.word);
-  };
-
-  keyInput = (key: string) => {
-    console.log(key, this.word, this.index);
-
-    // ignore key input if the race hasn't started yet
+  /**
+   * Updates the game state based on a new key input.
+   * - if the character is correct, then we advance to the next one
+   * - if the new character correctly completes the word, then the player gets a temporary speed boost, and a new word is generated
+   * - if the character is a backspace, then we undo the previous incorrect character
+   * - if the character is incorrect, then the player gets a temporary speed penalty
+   * @param key the key that has been inputted
+   * @returns
+   */
+  handleKeyInput = (key: string) => {
     if (!this.started) {
       return;
     }
 
-    // if the user input a wrong character last time, they need to backspace it
-    if (this.lastCharacterIncorrect) {
-      if (key === "Backspace") {
-        this.lastCharacterIncorrect = false;
-      }
-    }
+    const correct = this.isCharacterCorrect(key);
 
-    if (this.checkInput(key)) {
-      this.index++;
-
-      if (this.index === this.word.length) {
-        this.gotWordRight();
-      }
+    if (correct) {
+      this.handleCorrectCharacter();
+    } else if (key === "Backspace") {
+      this.handleBackspace();
     } else {
-      this.lastCharacterIncorrect = true;
-
-      this.speed -= PENALTY_AMOUNT;
+      this.handleIncorrectCharacter();
     }
-  };
-
-  /**
-   * checks the key pressed and the value at word[index]
-   * index will be increased from where the function is called
-   * new word will be generated from where the function is called
-   * called at each key press event
-   */
-  checkInput = (key: string): boolean => {
-    return key === this.word[this.index];
-  };
-
-  gotWordRight = () => {
-    this.speed += BOOST_AMOUNT;
-
-    this.word = randomWord();
-    this.index = 0;
-
-    this.client.onNewWord(this.word);
   };
 
   update = () => {
@@ -98,6 +65,43 @@ export class GameServer {
       this.speed += SPEED_RECOVERY_RATE;
     }
   };
-}
 
-export class Player {}
+  private startRace = () => {
+    this.started = true;
+
+    this.client.onNewWord(this.word);
+  };
+
+  private handleCorrectCharacter() {
+    this.index++;
+
+    if (this.index === this.word.length) {
+      this.handleCompletedWord();
+    }
+  }
+
+  private handleIncorrectCharacter() {
+    this.incorrectCount += 1;
+
+    this.speed -= SPEED_PENALTY_AMOUNT;
+  }
+
+  private handleBackspace() {
+    if (this.incorrectCount > 0) {
+      this.incorrectCount--;
+    }
+  }
+
+  private isCharacterCorrect = (key: string): boolean => {
+    return key === this.word[this.index] && this.incorrectCount === 0;
+  };
+
+  private handleCompletedWord = () => {
+    this.speed += SPEED_BOOST_AMOUNT;
+
+    this.word = randomWord();
+    this.index = 0;
+
+    this.client.onNewWord(this.word);
+  };
+}

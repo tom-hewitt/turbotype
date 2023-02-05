@@ -16,5 +16,3 @@ export function randomWord(): string {
   // we know this can't be undefined because the length of words is definitely > 0
   return randomChoice(words)!;
 }
-
-console.log(randomWord(), randomWord(), randomWord());

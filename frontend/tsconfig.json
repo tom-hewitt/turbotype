@@ -1,5 +1,8 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    
     // ---- LANGUAGE AND ENVIRONMENT ----
     "target": "ES6", // makes typescript compile to ES6 JavaScript, which runs on all modern web browsers
     "lib": [ // the built-in libraries we need

@@ -2,10 +2,13 @@
   "files": [],
   "references": [
     {
-      "path": "./frontend/tsconfig.ref.json"
+      "path": "./frontend/tsconfig.json"
     },
     {
-      "path": "./game-server/tsconfig.ref.json"
+      "path": "./server/tsconfig.json"
+    },
+    {
+      "path": "./game/tsconfig.json"
     }
   ],
 
@@ -17,7 +20,7 @@
     "noFallthroughCasesInSwitch": true,           // prevents bugs where you forget to break from a switch case
     "noImplicitOverride": true,                   // stops accidental method overriding
     "noImplicitReturns": true,                    // makes sure that all code paths in a function return a value if the function is supposed to
-    "noPropertyAccessFromIndexSignature": true,   // highlights the difference between properties that definitely exist, and properties that might exist
+    // "noPropertyAccessFromIndexSignature": true,   // highlights the difference between properties that definitely exist, and properties that might exist
     "noUncheckedIndexedAccess": true,             // makes sure you handle the undefined case for a index that might not exist
     "noUnusedLocals": true,                       // prevents unnecessary variables
     "noUnusedParameters": true,                   // prevents unnecessary parameters

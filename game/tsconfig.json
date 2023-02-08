@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",   // extend the projects base configuration
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015",
+    "declaration": true,
+    "outDir": "./dist"
+  },
+}

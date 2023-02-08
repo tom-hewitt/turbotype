@@ -1,0 +1,14 @@
+{
+  "name": "@turbotype/server",
+  "scripts": {
+    "dev": "bun --hot src/server.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@msgpack/msgpack": "^2.8.0",
+    "@turbotype/game": "file:../game"
+  },
+  "devDependencies": {
+    "bun-types": "^0.3.0"
+  }
+}

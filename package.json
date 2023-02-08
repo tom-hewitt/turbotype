@@ -15,7 +15,9 @@
   ],
   "workspaces": [
     "frontend",
-    "game-server"
+    "game",
+    "words",
+    "server"
   ],
   "devDependencies": {
     "concurrently": "^7.6.0"

@@ -1,7 +1,7 @@
 {
   "name": "@turbotype/server",
   "scripts": {
-    "dev": "bun --hot src/server.ts",
+    "dev": "bun --hot src/websocket.ts",
     "build": "tsc"
   },
   "dependencies": {

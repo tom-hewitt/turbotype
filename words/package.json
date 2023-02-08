@@ -3,7 +3,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "bun run src/index.ts"
+    "build": "bun run src/index.ts",
+    "dev": "bun run src/index.ts"
   },
   "devDependencies": {
     "bun-types": "^0.3.0"

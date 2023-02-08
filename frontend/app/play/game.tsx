@@ -4,13 +4,13 @@ import React from "react";
 import { HUD } from "./hud";
 import { GameScene } from "./scene";
 import styles from "./styles.module.css";
-import { useGameState } from "./state";
+import { useWordState } from "./state";
 
 /**
  * A React Component that displays the Game Scene, overlayed with the Game HUD
  */
 export const Game: React.FC = () => {
-  const { word, index, incorrectCount } = useGameState();
+  const { word, characterIndex, incorrectCharacterCount } = useWordState();
 
   return (
     <div>
@@ -20,8 +20,8 @@ export const Game: React.FC = () => {
       <div className={styles.hud}>
         <HUD
           word={word.toUpperCase()}
-          index={index}
-          incorrectCount={incorrectCount}
+          characterIndex={characterIndex}
+          incorrectCharacterCount={incorrectCharacterCount}
         />
       </div>
     </div>

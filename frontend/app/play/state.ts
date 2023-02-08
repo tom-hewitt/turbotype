@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { applyKeyInput, GameState } from "@turbotype/game";
+import { applyKeyInput, WordState } from "@turbotype/game";
 
 type Action = NewWordAction | KeyInputAction;
 
@@ -20,13 +20,13 @@ type KeyInputAction = {
  * @param action the new action
  * @returns the new game state
  */
-const reducer = (state: GameState, action: Action): GameState => {
+const reducer = (state: WordState, action: Action): WordState => {
   switch (action.type) {
     case "New Word":
       return {
-        index: 0,
-        incorrectCount: 0,
         word: action.word,
+        characterIndex: 0,
+        incorrectCharacterCount: 0,
       };
     case "Key Input":
       return applyKeyInput(state, action.key);
@@ -41,15 +41,15 @@ const reducer = (state: GameState, action: Action): GameState => {
  * - determines the current game state, based on the key inputs and new words
  * @returns the current game state
  */
-export const useGameState = (): GameState => {
+export const useWordState = (): WordState => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     "ws://localhost:8080"
   );
 
   const [state, dispatch] = useReducer(reducer, {
     word: "",
-    index: 0,
-    incorrectCount: 0,
+    characterIndex: 0,
+    incorrectCharacterCount: 0,
   });
 
   // runs every time there is a new message from the server

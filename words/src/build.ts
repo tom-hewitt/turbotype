@@ -25,16 +25,16 @@ const lines = fileContents.split("\n");
 // for each line, only keep the section after the first tab
 const words = lines.map((line) => line.split("\t")[1]);
 
-const js = `export const words = [${words
+const js = `module.exports.words = [${words
   .map((word) => `"${word}"`)
   .join(", ")}];`;
 
-const distPath = join(import.meta.dir, "..", "dist");
+const distPath = join(__dirname, "..", "dist");
 
 mkdirSync(distPath, { recursive: true });
 
-writeFileSync(join(distPath, "index.js"), js, { flag: "wx" });
+writeFileSync(join(distPath, "index.js"), js, { flag: "w" });
 
 const dts = "export declare const words: string[];";
 
-writeFileSync(join(distPath, "index.d.ts"), dts, { flag: "wx" });
+writeFileSync(join(distPath, "index.d.ts"), dts, { flag: "w" });

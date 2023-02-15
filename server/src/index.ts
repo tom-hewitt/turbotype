@@ -1,1 +1,3 @@
-export * from "./messages";
+export type { ServerToClientMessage, WordListMessage } from "./messages";
+
+export { ServerToClientMessageType } from "./messages";

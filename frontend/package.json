@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@msgpack/msgpack": "^2.8.0",
     "@next/font": "^13.1.6",
     "@react-three/drei": "^9.56.12",
     "@react-three/fiber": "^8.10.1",
     "@turbotype/game": "file:../game",
+    "@turbotype/server": "file:../server",
     "classnames": "^2.3.2",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",

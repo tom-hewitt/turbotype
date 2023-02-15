@@ -23,5 +23,5 @@ export const randomWord = (): string => {
  * @returns the list of random words
  */
 export const randomWords = (n: number): string[] => {
-  return Array(n).map(randomWord);
+  return Array.from({ length: n }, randomWord);
 };

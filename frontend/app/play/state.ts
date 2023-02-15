@@ -1,36 +1,46 @@
-import { useEffect, useReducer } from "react";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { useEffect, useReducer, useState } from "react";
+import useWebSocket from "react-use-websocket";
 import { applyKeyInput, WordState } from "@turbotype/game";
+import {
+  ServerToClientMessage,
+  ServerToClientMessageType,
+} from "@turbotype/server";
+import { decode } from "@msgpack/msgpack";
+import { WordListMessage } from "@turbotype/server";
 
-type Action = NewWordAction | KeyInputAction;
-
-type NewWordAction = {
-  type: "New Word";
-  word: string;
+const isWordListMessage = (
+  message: ServerToClientMessage
+): message is WordListMessage => {
+  return message[0] === ServerToClientMessageType.WORD_LIST;
 };
 
-type KeyInputAction = {
-  type: "Key Input";
-  key: string;
-};
+export const useMultiplayerGame = (): {
+  wordList: string[] | null;
+  sendKeyInput: (key: string) => void;
+} => {
+  const { sendMessage, lastMessage } = useWebSocket("ws://localhost:8080");
 
-/**
- * Produces the new game state from the current state and a new action
- * @param state the current game state
- * @param action the new action
- * @returns the new game state
- */
-const reducer = (state: WordState, action: Action): WordState => {
-  switch (action.type) {
-    case "New Word":
-      return {
-        word: action.word,
-        characterIndex: 0,
-        incorrectCharacterCount: 0,
-      };
-    case "Key Input":
-      return applyKeyInput(state, action.key);
-  }
+  const [wordList, setWordList] = useState<string[] | null>(null);
+
+  // runs every time there is a new message from the server
+  useEffect(() => {
+    if (lastMessage?.data) {
+      if (lastMessage.data instanceof Blob) {
+        lastMessage.data.arrayBuffer().then((buffer) => {
+          const message = decode(buffer) as ServerToClientMessage;
+
+          console.log(message);
+
+          if (isWordListMessage(message)) {
+            const [_, ...list] = message;
+            setWordList(list);
+          }
+        });
+      }
+    }
+  }, [lastMessage]);
+
+  return { wordList, sendKeyInput: sendMessage };
 };
 
 /**
@@ -41,50 +51,42 @@ const reducer = (state: WordState, action: Action): WordState => {
  * - determines the current game state, based on the key inputs and new words
  * @returns the current game state
  */
-export const useWordState = (): WordState => {
-  const { sendMessage, lastMessage, readyState } = useWebSocket(
-    "ws://localhost:8080"
+export const useWordState = ({
+  wordList,
+  sendKeyInput,
+}: {
+  wordList: string[];
+  sendKeyInput: (key: string) => void;
+}): WordState => {
+  const [state, dispatch] = useReducer(
+    (state: WordState, key: string) =>
+      applyKeyInput(state, key, wordList).state,
+    {
+      word: wordList[0]!,
+      wordIndex: 0,
+      characterIndex: 0,
+      incorrectCharacterCount: 0,
+    }
   );
 
-  const [state, dispatch] = useReducer(reducer, {
-    word: "",
-    characterIndex: 0,
-    incorrectCharacterCount: 0,
-  });
-
-  // runs every time there is a new message from the server
+  // adds a key down listener, and removes it when finished with it
   useEffect(() => {
-    if (lastMessage?.data) {
-      dispatch({
-        type: "New Word",
-        word: lastMessage.data,
-      });
-    }
-  }, [lastMessage]);
+    const onKeyDown = (event: KeyboardEvent) => {
+      // send the key over the websocket to the server
+      // TODO: only send relevant key presses - ignore shift, ctrl, etc.
+      // TODO: we could make this more efficient by using a number to represent the key
+      sendKeyInput(event.key);
 
-  // adds a keydown event listener once the websocket is open
-  // removes it when the websocket is closed or the component is unmounted
-  useEffect(() => {
-    if (readyState === ReadyState.OPEN) {
-      const onKeyDown = (event: KeyboardEvent) => {
-        // send the key over the websocket to the server
-        // TODO: only send relevant key presses - ignore shift, ctrl, etc.
-        // TODO: we could make this more efficient by using a number to represent the key
-        sendMessage(event.key);
+      // update the local state, which will in turn update the UI
+      dispatch(event.key);
+    };
 
-        // update the local state, which will in turn update the UI
-        dispatch({ type: "Key Input", key: event.key });
-      };
+    document.addEventListener("keydown", onKeyDown);
 
-      document.addEventListener("keydown", onKeyDown);
-
-      return () => {
-        document.removeEventListener("keydown", onKeyDown);
-      };
-    }
-
-    return;
-  }, [readyState]);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [sendKeyInput]);
 
   return state;
 };

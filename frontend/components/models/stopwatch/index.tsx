@@ -5,7 +5,7 @@ Command: npx gltfjsx@6.1.4 explorer.glb --transform --types
 
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
@@ -26,15 +26,14 @@ type GLTFResult = GLTF & {
   };
 };
 
-type ActionName = "ExplorerAction";
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
-
-export function Explorer(props: JSX.IntrinsicElements["group"]) {
-  const group = useRef<THREE.Group>();
-  const { nodes, materials, animations } = useGLTF(
+export function Stopwatch(props: JSX.IntrinsicElements["group"]) {
+  const group = useRef<THREE.Group>(null);
+  const { nodes, materials } = useGLTF(
     "/explorer-transformed.glb"
   ) as GLTFResult;
-  const { actions } = useAnimations<GLTFActions>(animations, group);
+
+  console.log(materials);
+
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">

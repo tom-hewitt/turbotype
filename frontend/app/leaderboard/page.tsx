@@ -15,6 +15,9 @@ export default function Leaderboard() {
           <li style={{ marginRight: '1rem' }}><a href="#"><Subheading>WEEK</Subheading></a></li>
           <li style={{ marginRight: '1rem' }}><a href="#"><Subheading>DAY</Subheading></a></li>
         </ul>
+        <ul style={{ display: 'flex', listStyleType: 'none', padding: '0.5rem', fontSize: '1.0rem' }}>
+        <li style={{ marginTop: '300px'}}><a href="#"><Subheading>NEXT PAGE</Subheading></a></li>
+        </ul>
       </nav>
     </Page>
   );

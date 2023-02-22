@@ -1,50 +1,56 @@
 import { encode } from "@msgpack/msgpack";
-import { MultiplayerGameSession } from "./game";
-import { WebSocketServer } from "ws";
 import type { WebSocket } from "ws";
 import {
   ActionMessage,
   ServerToClientMessage,
   ServerToClientMessageType,
-  WordListMessage,
+  ConnectMessage,
 } from "./messages";
+import { PlayerAction } from "@turbotype/game";
+import { ClientConstructor } from "./race";
 
-const webSocketServer = new WebSocketServer({ port: 8080 });
-console.log("Opening game server on port 8080");
+export const socketClientConstructor = (
+  socket: WebSocket
+): ClientConstructor => {
+  return (handleKeyInput) => {
+    // listen for key input messages
+    socket.on("message", (data) => {
+      const key = data.toString();
+      console.log("received message:", key);
+      handleKeyInput(key);
+    });
 
-const game = new MultiplayerGameSession();
+    const sendMessage = (message: ServerToClientMessage) => {
+      console.log("sending message:", message);
+      socket.send(encode(message));
+    };
 
-const sendMessage = (socket: WebSocket, message: ServerToClientMessage) => {
-  socket.send(encode(message));
+    return {
+      onConnect: (
+        playerID: number,
+        startTime: number,
+        playerCount: number,
+        list: string[]
+      ) => {
+        const message: ConnectMessage = [
+          ServerToClientMessageType.CONNECT,
+          playerID,
+          startTime,
+          playerCount,
+          list,
+        ];
+
+        sendMessage(message);
+      },
+      onAction: (playerID: number, action: PlayerAction) => {
+        const message: ActionMessage = [
+          ServerToClientMessageType.ACTION,
+          playerID,
+          action,
+        ];
+
+        sendMessage(message);
+      },
+    };
+  };
 };
-
-webSocketServer.on("connection", (socket) => {
-  const playerID = game.connect({
-    onWordList(list) {
-      const message: WordListMessage = [
-        ServerToClientMessageType.WORD_LIST,
-        ...list,
-      ];
-
-      console.log(message);
-
-      sendMessage(socket, message);
-    },
-
-    onAction(action, playerID) {
-      const message: ActionMessage = [
-        ServerToClientMessageType.ACTION,
-        action,
-        playerID,
-      ];
-
-      sendMessage(socket, message);
-    },
-  });
-
-  socket.on("message", (data) => {
-    const key = data.toString();
-
-    game.handleKeyInput(playerID, key);
-  });
-});

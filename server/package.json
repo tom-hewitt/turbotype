@@ -3,7 +3,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "dev": "nodemon src/websocket.ts",
+    "dev": "nodemon src/matchmaker.ts",
     "build": "tsc"
   },
   "dependencies": {

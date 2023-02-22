@@ -1,3 +1,6 @@
-export type { ServerToClientMessage, WordListMessage } from "./messages";
+export type {
+  ServerToClientMessage,
+  ConnectMessage as WordListMessage,
+} from "./messages";
 
 export { ServerToClientMessageType } from "./messages";

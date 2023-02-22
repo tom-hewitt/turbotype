@@ -1,8 +1,6 @@
-import { randomWord, randomWords } from "./words";
+export { randomWord, randomWords } from "./words";
 
-export { applyKeyInput, randomWord, randomWords };
-
-export interface WordState {
+export interface TypingState {
   word: string;
   wordIndex: number;
   characterIndex: number;
@@ -10,68 +8,36 @@ export interface WordState {
 }
 
 export enum PlayerAction {
-  CORRECT_WORD,
-  INCORRECT_LETTER,
+  CORRECT_LETTER = 0,
+  INCORRECT_LETTER = 1,
+  CORRECT_WORD = 2,
 }
 
-export interface PlayerClient {
-  onWordList: (list: string[]) => void;
-  onAction(action: PlayerAction, playerID: number): void;
+export const ACTION_PROGRESS_INCREASES: Record<PlayerAction, number> = {
+  [PlayerAction.CORRECT_LETTER]: 1,
+  [PlayerAction.INCORRECT_LETTER]: 0,
+  [PlayerAction.CORRECT_WORD]: 3,
+};
+
+export interface KeyInputResult {
+  state: TypingState;
+  action?: PlayerAction;
 }
 
-const BASE_SPEED = 10;
-
-const SPEED_BOOST_AMOUNT = 20;
-const SPEED_PENALTY_AMOUNT = 5;
-const SPEED_RECOVERY_RATE = 1;
-
-const applySpeedRecovery = (speed: number, delta: number): number => {
-  if (speed > BASE_SPEED) {
-    return speed - SPEED_RECOVERY_RATE * delta;
-  } else if (speed < BASE_SPEED) {
-    return speed + SPEED_RECOVERY_RATE * delta;
-  }
-
-  return speed;
-};
-
-export const updateSpeed = (
-  speed: number,
-  action: PlayerAction | null,
-  delta: number
-): number => {
-  switch (action) {
-    case PlayerAction.CORRECT_WORD: {
-      return speed + SPEED_BOOST_AMOUNT;
-    }
-    case PlayerAction.INCORRECT_LETTER: {
-      return speed - SPEED_PENALTY_AMOUNT;
-    }
-    default: {
-      return applySpeedRecovery(speed, delta);
-    }
-  }
-};
-
-export const updateSpeedAndProgress = (
-  progress: number,
-  speed: number,
-  action: PlayerAction | null,
-  delta: number
-): { progress: number; speed: number } => {
-  return {
-    progress: progress + speed * delta,
-    speed: updateSpeed(speed, action, delta),
-  };
-};
-
-const applyKeyInput = (
-  state: WordState,
+/**
+ * calculates the action and new state resulting from a key input
+ * @param state the state prior to the key input, containing the current word, wordIndex, characterIndex, and incorrectCharacterCount
+ * @param keyInput the key input string
+ * @param wordList the list of words for the current race
+ * @returns an object containing the action and new state
+ */
+export const applyKeyInput = (
+  state: TypingState,
   keyInput: string,
   wordList: string[]
-): { state: WordState; action: PlayerAction | null } => {
+): KeyInputResult => {
   if (state.word === "") {
-    return { state, action: null };
+    return { state };
   }
 
   const isCorrect =
@@ -93,7 +59,7 @@ const applyKeyInput = (
             word: "",
             characterIndex: 0,
           },
-          action: null,
+          action: PlayerAction.CORRECT_WORD,
         };
       }
 
@@ -105,7 +71,6 @@ const applyKeyInput = (
           wordIndex: state.wordIndex + 1,
           word: wordList[state.wordIndex + 1]!,
         },
-
         action: PlayerAction.CORRECT_WORD,
       };
     }
@@ -115,7 +80,7 @@ const applyKeyInput = (
         ...state,
         characterIndex: state.characterIndex + 1,
       },
-      action: null,
+      action: PlayerAction.CORRECT_LETTER,
     };
   } else {
     if (keyInput === "Backspace") {
@@ -128,7 +93,6 @@ const applyKeyInput = (
             0
           ),
         },
-        action: null,
       };
     }
 
@@ -137,8 +101,19 @@ const applyKeyInput = (
         ...state,
         incorrectCharacterCount: state.incorrectCharacterCount + 1,
       },
-
       action: PlayerAction.INCORRECT_LETTER,
     };
   }
+};
+
+/**
+ * calculates the current race progress based on a list of past actions
+ * @param actions the list of past actions
+ * @returns a number representing the current race progress
+ */
+export const calculateProgress = (actions: PlayerAction[]): number => {
+  return actions.reduce(
+    (sum, action) => sum + ACTION_PROGRESS_INCREASES[action],
+    0
+  );
 };

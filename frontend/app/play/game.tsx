@@ -1,6 +1,6 @@
 "use client";
 
-import { ACTION_PROGRESS_INCREASES, PlayerAction } from "@turbotype/game";
+import { calculateFinishProgress } from "@turbotype/game";
 import React, { useMemo } from "react";
 import { HUD } from "./hud";
 import { GameScene } from "./scene";
@@ -34,19 +34,12 @@ export const Game: React.FC<{
     hasRaceStarted: () => Date.now() >= startTime,
   });
 
-  // the progress needed to finish the race, equivalent to 2 * the number of characters in the wordlist
   const finishProgress = useMemo(
-    () =>
-      wordList.reduce(
-        (sum, word) =>
-          sum +
-          (word.length - 1) *
-            ACTION_PROGRESS_INCREASES[PlayerAction.CORRECT_LETTER] +
-          ACTION_PROGRESS_INCREASES[PlayerAction.CORRECT_WORD],
-        0
-      ),
+    () => calculateFinishProgress(wordList),
     [wordList]
   );
+
+  console.log("finishProgress: ", finishProgress);
 
   return (
     <div>

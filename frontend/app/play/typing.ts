@@ -28,16 +28,26 @@ export const useWordState = ({
 
   // adds a key down listener, and removes it when finished with it
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (hasRaceStarted()) {
-        // send the key over the websocket to the server
-        // TODO: only send relevant key presses - ignore shift, ctrl, etc.
-        // TODO: we could make this more efficient by using a number to represent the key
-        sendKeyInput(event.key);
-
-        // update the local state, which will in turn update the UI
-        dispatch(event.key);
+    const onKeyDown = ({ key }: KeyboardEvent) => {
+      if (!hasRaceStarted()) {
+        return;
       }
+
+      console.log(key);
+
+      // the only relevant key presses are letters or the backspace key
+      const isRelevant =
+        (key.length === 1 && key.match("[a-zA-Z]")) || key === "Backspace";
+
+      if (!isRelevant) {
+        return;
+      }
+
+      // send the key over the websocket to the server
+      sendKeyInput(key);
+
+      // update the local state, which will in turn update the UI
+      dispatch(key);
     };
 
     document.addEventListener("keydown", onKeyDown);

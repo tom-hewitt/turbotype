@@ -117,3 +117,27 @@ export const calculateProgress = (actions: PlayerAction[]): number => {
     0
   );
 };
+
+export const calculateFinishProgress = (wordList: string[]): number => {
+  const characterCount = wordList.reduce(
+    (sum, word) => sum + word.length - 1,
+    0
+  );
+
+  const characterProgress =
+    characterCount * ACTION_PROGRESS_INCREASES[PlayerAction.CORRECT_LETTER];
+
+  const wordProgress =
+    (wordList.length - 1) *
+    ACTION_PROGRESS_INCREASES[PlayerAction.CORRECT_WORD];
+
+  console.log({
+    wordList,
+    characterCount,
+    characterProgress,
+    wordProgress,
+    sum: characterProgress + wordProgress,
+  });
+
+  return characterProgress + wordProgress;
+};

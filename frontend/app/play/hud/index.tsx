@@ -1,8 +1,8 @@
 "use client";
 
 import classNames from "classnames";
-import React, { useState } from "react";
-import { anton } from "../../layout";
+import React from "react";
+import { anton } from "../../fonts";
 import styles from "./styles.module.css";
 
 

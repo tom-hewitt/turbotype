@@ -1,7 +1,8 @@
 import Link from "next/link";
 import React from "react";
-import { anton } from "../../app/layout";
+import { anton } from "../../app/fonts";
 import { Logo } from "../logo";
+import { Profile } from "../profile";
 import { ProfileIcon } from "../profileIcon";
 import { Spacer } from "../spacer";
 import { Text } from "../text";
@@ -15,12 +16,7 @@ export const HomeNavBar = () => {
         <Logo />
       </Link>
       <Spacer />
-      <Link href="/profile/" className={styles.profile}>
-        <span className={styles.profileName}>
-          <Text>Adam</Text>
-        </span>
-        <ProfileIcon />
-      </Link>
+      <Profile />
     </nav>
   );
 };

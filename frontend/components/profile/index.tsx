@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { useSupabase } from "../../database/provider";
 import { ProfileIcon } from "../profileIcon";

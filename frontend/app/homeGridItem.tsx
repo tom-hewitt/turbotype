@@ -8,7 +8,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Stopwatch } from "../components/models/stopwatch";
 import { RaceCar } from "../components/models/racecar";
-import { anton, inter } from "./layout";
+import { anton, inter } from "./fonts";
 import styles from "./styles.module.css";
 
 export const HomeGridItem: React.FC<{

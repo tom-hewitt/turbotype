@@ -2,7 +2,7 @@
 
 import classNames from "classnames";
 import React from "react";
-import { anton } from "../../layout";
+import { anton } from "../../fonts";
 import styles from "./styles.module.css";
 
 export const HUD: React.FC<{

@@ -1,20 +1,37 @@
+import "server-only";
+import SupabaseListener from "../database/listener";
+import SupabaseProvider from "../database/provider";
+
+import { createClient } from "../database/server";
 import "../styles/globals.css";
 
-import { Anton } from "@next/font/google";
-import { Inter } from "@next/font/google";
+// do not cache this layout
+export const revalidate = 0;
 
-export const anton = Anton({ weight: "400", subsets: ["latin"] });
-export const inter = Inter({ weight: "400", subsets: ["latin"] });
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = createClient();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   return (
-    <html>
+    <html lang="en">
+      {/*
+      <head /> will contain the components returned by the nearest parent
+      head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
+    */}
       <head />
-      <body>{children}</body>
+      <body>
+        <SupabaseProvider session={session}>
+          <SupabaseListener serverAccessToken={session?.access_token} />
+          {children}
+        </SupabaseProvider>
+      </body>
     </html>
   );
 }

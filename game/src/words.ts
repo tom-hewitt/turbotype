@@ -1,4 +1,4 @@
-import { words } from "./wordList";
+import { words } from "@turbotype/words";
 
 /**
  * Chooses a random item from an array. Will return undefined if the array is empty.
@@ -12,7 +12,16 @@ function randomChoice<T>(array: T[]): T | undefined {
  * Chooses a random word from the word list.
  * @returns the word
  */
-export function randomWord(): string {
+export const randomWord = (): string => {
   // we know this can't be undefined because the length of words is definitely > 0
   return randomChoice(words)!;
-}
+};
+
+/**
+ * Generates a list of n random words
+ * @param n the number of words to generate
+ * @returns the list of random words
+ */
+export const randomWords = (n: number): string[] => {
+  return Array.from({ length: n }, randomWord);
+};

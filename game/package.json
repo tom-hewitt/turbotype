@@ -1,0 +1,15 @@
+{
+  "name": "@turbotype/game",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@turbotype/words": "file:../words"
+  }
+}

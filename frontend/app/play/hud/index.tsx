@@ -109,17 +109,21 @@ import styles from "./styles.module.css";
 
 export const HUD: React.FC<{
   word: string;
-  index: number;
-  incorrectCount: number;
+  characterIndex: number;
+  incorrectCharacterCount: number;
 }> = (props) => {
   return <Word {...props} />;
 };
 
 const Word: React.FC<{
   word: string;
-  index: number;
-  incorrectCount: number;
-}> = ({ word, index, incorrectCount }) => {
+  characterIndex: number;
+  incorrectCharacterCount: number;
+}> = ({
+  word,
+  characterIndex: index,
+  incorrectCharacterCount: incorrectCount,
+}) => {
   const correctPart = word.substring(0, index);
 
   const incorrectPart = word

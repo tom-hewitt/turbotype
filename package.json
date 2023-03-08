@@ -15,12 +15,15 @@
   ],
   "workspaces": [
     "frontend",
-    "game-server"
+    "game",
+    "words",
+    "server"
   ],
   "devDependencies": {
     "concurrently": "^7.6.0"
   },
   "scripts": {
-    "dev": "concurrently --kill-others \"npm -w frontend run dev\" \"npm -w game-server run dev\""
+    "dev": "concurrently --kill-others \"npm -w words run dev\" \"npm -w game run dev\" \"npm -w frontend run dev\" \"npm -w server run dev\"",
+    "build": "npm -w words run build & npm -w game run build"
   }
 }

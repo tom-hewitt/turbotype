@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json", // extend the projects base configuration
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "./dist",
+    "declaration": true,
+    "composite": true
+  }
+}

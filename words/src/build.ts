@@ -23,7 +23,7 @@ const fileContents = readFileSync("words.txt", "utf-8");
 const lines = fileContents.split("\n");
 
 // for each line, only keep the section after the first tab
-const words = lines.map((line) => line.split("\t")[1]);
+const words = lines.map((line) => line.split("\t")[1]?.trim());
 
 const js = `module.exports.words = [${words
   .map((word) => `"${word}"`)

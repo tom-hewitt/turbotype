@@ -1,37 +1,103 @@
 "use client";
 
-import { Sky, Cloud, PerspectiveCamera } from "@react-three/drei";
-import { Canvas, Vector3 } from "@react-three/fiber";
+import { Sky, PerspectiveCamera } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import { PlayerAction } from "@turbotype/game";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { RaceCar } from "../../components/models/racecar";
 import { useProgress } from "./typing";
-import { motion as motion3d } from "framer-motion-3d";
 import "./styles.module.css";
+import { Map_1 } from "../../components/models/map_1";
+import {
+  BufferGeometry,
+  CatmullRomCurve3,
+  LineBasicMaterial,
+  LineLoop,
+  Vector3,
+} from "three";
+import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
 
-const PROGRESS_MULTIPLIER = 10;
+const CURVE = new CatmullRomCurve3(
+  [
+    new Vector3(0, 0, 0),
+    new Vector3(0, 0, -50),
+    new Vector3(-50, 0, -50),
+    new Vector3(0, 0, 50),
+  ],
+  true,
+  "centripetal"
+);
 
-const CAR_SEPARATION = 2;
+const line = new LineLoop(
+  new BufferGeometry().setFromPoints(CURVE.getPoints(50)),
+  new LineBasicMaterial({ color: 0xff0000 })
+);
 
 export const Player: React.FC<{
   actions: PlayerAction[];
   self: boolean;
-  x: number;
-}> = ({ actions, self, x }) => {
+  curve: CatmullRomCurve3;
+  finishProgress: number;
+}> = ({ actions, self, curve, finishProgress }) => {
+  const ref = useRef<THREE.Group | null>(null);
+
   const progress = useProgress(actions);
 
-  console.log("progress:", progress);
+  // useFrame(() => {
+  //   if (ref.current) {
+  //     const fraction = progress / finishProgress;
+
+  //     const position = curve.getPointAt(fraction);
+
+  //     ref.current.position.copy(position);
+
+  //     const tangent = curve.getTangentAt(fraction + 0.001);
+
+  //     ref.current.lookAt(tangent.add(position));
+  //   }
+  // });
 
   return (
-    <motion3d.group
-      animate={{ z: -[progress * PROGRESS_MULTIPLIER] }}
-      transition={{ ease: "easeOut", duration: 2 }}
-      position={[x, 0, 0]}
-    >
-      <RaceCar position={[0, -3, 0]} castShadow />
-      {self ? <PerspectiveCamera position={[0, -2, 5]} makeDefault /> : null}
-    </motion3d.group>
+    <CurveFollower progress={progress / finishProgress} curve={curve}>
+      <group>
+        <RaceCar position={[0, 0, 0]} castShadow />
+        {self ? <PerspectiveCamera position={[0, 1, 5]} makeDefault /> : null}
+      </group>
+    </CurveFollower>
   );
+};
+
+export const CurveFollower: React.FC<{
+  progress: number;
+  curve: CatmullRomCurve3;
+  children: React.ReactNode;
+}> = ({ progress, curve, children }) => {
+  const ref = useRef<THREE.Group | null>(null);
+
+  const animatedProgress = useMotionValue(progress);
+
+  useMotionValueEvent(animatedProgress, "change", (latest) => {
+    if (ref.current) {
+      const position = curve.getPointAt(latest);
+
+      ref.current.position.copy(position);
+
+      const tangent = curve.getTangentAt(latest + 0.001);
+
+      ref.current.lookAt(tangent.add(position));
+
+      ref.current.rotation.y += Math.PI;
+    }
+  });
+
+  useEffect(() => {
+    animate(animatedProgress, progress, {
+      duration: 3,
+      ease: "easeOut",
+    });
+  }, [progress]);
+
+  return <group ref={ref}>{children}</group>;
 };
 
 export const GameScene: React.FC<{
@@ -48,70 +114,18 @@ export const GameScene: React.FC<{
           key={id}
           actions={actions}
           self={id === playerID}
-          x={(startX + id) * CAR_SEPARATION}
+          curve={CURVE}
+          finishProgress={finishProgress}
+          // x={(startX + id) * CAR_SEPARATION}
         />
       ))}
 
-      <Map finishProgress={finishProgress} />
-    </Canvas>
-  );
-};
+      <primitive object={line} />
 
-export const Map: React.FC<{ finishProgress: number }> = ({
-  finishProgress,
-}) => {
-  const raceLength = finishProgress * PROGRESS_MULTIPLIER;
-
-  console.log(finishProgress);
-
-  return (
-    <group>
+      <Map_1 position={[0, -2, 0]} scale={10} />
       <ambientLight intensity={0.5} />
-      <Road length={raceLength} />
-      <FinishLine position={[0, 0, -raceLength]} />
       <Sky sunPosition={[7, 5, 1]} />
-      <Cloud opacity={0.5} speed={0.4} width={200} depth={0} segments={200} />
       <spotLight position={[10, 15, 10]} angle={10} />
-    </group>
-  );
-};
-
-export const Road: React.FC<{ length: number }> = ({ length }) => {
-  return (
-    <group>
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -3, -(length / 2)]}
-        receiveShadow
-      >
-        <planeGeometry args={[20, length]} />
-        <meshPhysicalMaterial
-          attach="material"
-          color="#e5a25e"
-          metalness={0.2}
-        />
-      </mesh>
-      {Array.from({ length: 100 }, (_, i) => (
-        <RoadLine key={i} position={[0, -2.9, -i * 6]} />
-      ))}
-    </group>
-  );
-};
-
-export const RoadLine: React.FC<{ position: Vector3 }> = ({ position }) => {
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={position} receiveShadow>
-      <planeGeometry args={[0.5, 2]} />
-      <meshPhysicalMaterial attach="material" color="white" metalness={0.2} />
-    </mesh>
-  );
-};
-
-export const FinishLine: React.FC<{ position: Vector3 }> = ({ position }) => {
-  return (
-    <mesh position={position}>
-      <planeGeometry args={[10, 10]} />
-      <meshStandardMaterial attach="material" color="red" />
-    </mesh>
+    </Canvas>
   );
 };

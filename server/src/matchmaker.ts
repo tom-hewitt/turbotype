@@ -2,7 +2,7 @@ import { WebSocket, WebSocketServer } from "ws";
 import { MultiplayerRace } from "./race";
 import { socketClientConstructor } from "./websocket";
 
-const SOCKETS_PER_SESSION = 2;
+const SOCKETS_PER_SESSION = 1;
 
 const webSocketServer = new WebSocketServer({ port: 8080 });
 console.log("Opening matchmaking server on port 8080");

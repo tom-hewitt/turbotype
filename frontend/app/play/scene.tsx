@@ -39,23 +39,7 @@ export const Player: React.FC<{
   curve: CatmullRomCurve3;
   finishProgress: number;
 }> = ({ actions, self, curve, finishProgress }) => {
-  const ref = useRef<THREE.Group | null>(null);
-
   const progress = useProgress(actions);
-
-  // useFrame(() => {
-  //   if (ref.current) {
-  //     const fraction = progress / finishProgress;
-
-  //     const position = curve.getPointAt(fraction);
-
-  //     ref.current.position.copy(position);
-
-  //     const tangent = curve.getTangentAt(fraction + 0.001);
-
-  //     ref.current.lookAt(tangent.add(position));
-  //   }
-  // });
 
   return (
     <CurveFollower progress={progress / finishProgress} curve={curve}>
@@ -105,8 +89,6 @@ export const GameScene: React.FC<{
   playerActions: PlayerAction[][];
   finishProgress: number;
 }> = ({ playerID, playerActions, finishProgress }) => {
-  const startX = -((playerActions.length - 1) / 2);
-
   return (
     <Canvas>
       {playerActions.map((actions, id) => (

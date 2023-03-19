@@ -19,17 +19,83 @@ import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
 
 const CURVE = new CatmullRomCurve3(
   [
+
+    //car 3
     new Vector3(0, 0, 0),
+    new Vector3(0, 0, -30),
     new Vector3(0, 0, -50),
-    new Vector3(-50, 0, -50),
-    new Vector3(0, 0, 50),
+    new Vector3(-3, 0, -57),
+    new Vector3(-10, 0, -60),
+    new Vector3(-50, 0, -60),
+    new Vector3(-57, 0, -63),
+    new Vector3(-60, 0, -70),
+    new Vector3(-57, 0, -77),
+    new Vector3(-50, 0, -80),
+    new Vector3(-30, 0, -80),
+    new Vector3(-23, 0, -83),
+    new Vector3(-20, 0, -90),
+    new Vector3(-17, 0, -97),
+    new Vector3(-10, 0, -100),
+    new Vector3(10, 0, -100),
+    new Vector3(17, 0, -97),
+    new Vector3(20, 0, -90),
+    new Vector3(23, 0, -83),
+    new Vector3(30, 0, -80),
+    new Vector3(37, 0, -77),
+    new Vector3(40, 0, -70),
+    new Vector3(40, 0, -30),
+    new Vector3(37, 0, -23),
+    new Vector3(30, 0, -20),
+    new Vector3(23, 0, -17),
+    new Vector3(20, 0, -10),
+    new Vector3(23, 0, -3),
+    new Vector3(30, 0, 0),
+    new Vector3(70, 0, 0),
+    new Vector3(77, 0, 3),
+    new Vector3(80, 0, 10),
+    new Vector3(80, 0, 30),
+    new Vector3(77, 0, 37),
+    new Vector3(70, 0, 40),
+    new Vector3(63, 0, 43),
+    new Vector3(60, 0, 50),
+    new Vector3(57, 0, 57),
+    new Vector3(50, 0, 60),
+    new Vector3(20, 0, 60),
+    new Vector3(-10, 0, 60),
+    new Vector3(-17, 0, 57),
+    new Vector3(-20, 0, 50),
+    new Vector3(-23, 0, 43),
+    new Vector3(-30, 0, 40),
+    new Vector3(-50, 0, 40),
+    new Vector3(-57, 0, 37),
+    new Vector3(-60, 0, 30),
+    new Vector3(-60, 0, 10),
+    new Vector3(-57, 0, 3),
+    new Vector3(-50, 0, 0),
+    new Vector3(-43, 0, -3),
+    new Vector3(-40, 0, -10),
+    new Vector3(-37, 0, -17),
+    new Vector3(-30, 0, -20),
+    new Vector3(-23, 0, -17),
+    new Vector3(-20, 0, -10),
+    new Vector3(-20, 0, 10),
+    new Vector3(-17, 0, 17),
+    new Vector3(-10, 0, 20),
+    new Vector3(-3, 0, 17),
+    new Vector3(0, 0, 10),
+    new Vector3(0, 0, 0),
+
+
+
+
+
   ],
   true,
   "centripetal"
 );
 
 const line = new LineLoop(
-  new BufferGeometry().setFromPoints(CURVE.getPoints(50)),
+  new BufferGeometry().setFromPoints(CURVE.getPoints(200)),
   new LineBasicMaterial({ color: 0xff0000 })
 );
 
@@ -90,7 +156,8 @@ export const GameScene: React.FC<{
   finishProgress: number;
 }> = ({ playerID, playerActions, finishProgress }) => {
   return (
-    <Canvas>
+    
+    <Canvas >
       {playerActions.map((actions, id) => (
         <Player
           key={id}

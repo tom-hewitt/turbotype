@@ -128,11 +128,11 @@ export const CurveFollower: React.FC<{
 
   useMotionValueEvent(animatedProgress, "change", (latest) => {
     if (ref.current) {
-      const position = curve.getPointAt(latest % 1);
+      const position = curve.getPointAt(latest);
 
       ref.current.position.copy(position);
 
-      const tangent = curve.getTangentAt((latest + 0.001) % 1);
+      const tangent = curve.getTangentAt(latest + 0.001);
 
       ref.current.lookAt(tangent.add(position));
 

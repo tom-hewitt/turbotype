@@ -132,7 +132,7 @@ export const CurveFollower: React.FC<{
 
       ref.current.position.copy(position);
 
-      const tangent = curve.getTangentAt(latest + 0.001);
+      const tangent = curve.getTangentAt((latest + 0.001) % 1);
 
       ref.current.lookAt(tangent.add(position));
 

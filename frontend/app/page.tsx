@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 import {
@@ -10,7 +12,12 @@ import {
   SettingsButton,
   TournamentsButton,
 } from "./homeGridItem";
-import { HomeNavBar } from "../components/navbar";
+import { useSupabase } from "../database/provider";
+import { Logo } from "../components/logo";
+import { Spacer } from "../components/spacer";
+import { UserBadge } from "../components/UserBadge";
+import { LoginButton } from "../components/LoginButton";
+import { SignUpModal } from "../components/SignUpModal";
 
 const HomeGridColumn: React.FC<{
   fractionalWidth: number;
@@ -43,10 +50,41 @@ const HomeGrid: React.FC = () => {
   );
 };
 
+const useUsername = (): string | null | undefined => {
+  const { supabase, session } = useSupabase();
+
+  const [username, setUsername] = useState<string | null | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (!session) {
+      setUsername(undefined);
+      return;
+    }
+
+    supabase
+      .from("accounts")
+      .select("username")
+      .then(({ data }) => setUsername(data?.[0] ? data[0].username : null));
+  }, [supabase, session]);
+
+  return username;
+};
+
 export default function Home() {
+  const username = useUsername();
+
+  console.log("username:", username);
+
   return (
     <div className={styles.page}>
-      <HomeNavBar />
+      {username === null ? <SignUpModal /> : null}
+      <nav className={styles.navbar}>
+        <Logo />
+        <Spacer />
+        {username ? <UserBadge username={username} /> : <LoginButton />}
+      </nav>
       <HomeGrid />
     </div>
   );

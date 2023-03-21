@@ -2,24 +2,11 @@ import Link from "next/link";
 import React from "react";
 import { anton } from "../../app/fonts";
 import { Logo } from "../logo";
-import { Profile } from "../profile";
 import { ProfileIcon } from "../profileIcon";
 import { Spacer } from "../spacer";
 import { Text } from "../text";
 import { CollapsedMenu } from "./collapsedMenu";
 import styles from "./styles.module.css";
-
-export const HomeNavBar = () => {
-  return (
-    <nav className={styles.navbar}>
-      <Link href="/">
-        <Logo />
-      </Link>
-      <Spacer />
-      <Profile />
-    </nav>
-  );
-};
 
 export const NavBar = ({ colour }: { colour: string }) => {
   return (

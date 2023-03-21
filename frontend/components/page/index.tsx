@@ -18,7 +18,7 @@ export const Page = ({
   );
 };
 
-const Gradient = () => {
+export const Gradient = () => {
   return (
     <div className={styles.gradient}>
       <svg

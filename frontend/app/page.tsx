@@ -18,6 +18,7 @@ import { Spacer } from "../components/spacer";
 import { LoginButton } from "../components/LoginButton";
 import { SignUpModal } from "../components/SignUpModal";
 import { User } from "../components/User";
+import { Gradient } from "../components/page";
 
 const HomeGridColumn: React.FC<{
   fractionalWidth: number;
@@ -64,6 +65,7 @@ export default function Home() {
         {username ? <User username={username} /> : <LoginButton />}
       </nav>
       <HomeGrid />
+      <Gradient />
     </div>
   );
 }

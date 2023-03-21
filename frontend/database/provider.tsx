@@ -6,6 +6,7 @@ import { createClient } from "./browser";
 import type { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 type SupabaseContext = {
+  username: string | null;
   supabase: SupabaseClient;
   session: Session | null;
 };
@@ -15,14 +16,16 @@ const Context = createContext<SupabaseContext | undefined>(undefined);
 export default function SupabaseProvider({
   children,
   session,
+  username,
 }: {
   children: React.ReactNode;
   session: Session | null;
+  username: string | null;
 }) {
   const [supabase] = useState(() => createClient());
 
   return (
-    <Context.Provider value={{ supabase, session }}>
+    <Context.Provider value={{ username, supabase, session }}>
       <>{children}</>
     </Context.Provider>
   );

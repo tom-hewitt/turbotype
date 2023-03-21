@@ -14,7 +14,8 @@ export const SignUpModal: React.FC = () => {
     console.log({ id: session?.user.id, username });
 
     supabase
-      .rpc("signup", { id: session?.user.id, username })
+      .from("users")
+      .insert({ id: session?.user.id, username })
       .then((value) => console.log(value));
   };
 
@@ -24,6 +25,9 @@ export const SignUpModal: React.FC = () => {
 
   return (
     <div>
+      {session?.user.email ? (
+        <span>authenticated as {session.user.email}</span>
+      ) : null}
       <form onSubmit={handleSubmit}>
         <input
           type="text"

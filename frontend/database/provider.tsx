@@ -4,10 +4,11 @@ import { createContext, useContext, useState } from "react";
 import { createClient } from "./browser";
 
 import type { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "./types";
 
 type SupabaseContext = {
   username: string | undefined | null;
-  supabase: SupabaseClient;
+  supabase: SupabaseClient<Database>;
   session: Session | null;
 };
 

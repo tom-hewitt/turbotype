@@ -2,6 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { useSupabase } from "../../database/provider";
+import { Heading } from "../heading";
+import { Spacer } from "../spacer";
+import styles from "./styles.module.css";
 
 export const SignUpModal: React.FC = () => {
   const { supabase, session } = useSupabase();
@@ -24,20 +27,26 @@ export const SignUpModal: React.FC = () => {
   };
 
   return (
-    <div>
-      {session?.user.email ? (
-        <span>authenticated as {session.user.email}</span>
-      ) : null}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button type="submit">Start Racing!</button>
-      </form>
-      <button onClick={handleBack}>back</button>
+    <div className={styles.background}>
+      <div className={styles.modal}>
+        <div className={styles.header}>
+          {session?.user.email ? (
+            <span>authenticated as {session.user.email}</span>
+          ) : null}
+          <Spacer />
+          <button onClick={handleBack}>✕</button>
+        </div>
+        <Heading>CHOOSE YOUR NAME</Heading>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button type="submit">start racing!</button>
+        </form>
+      </div>
     </div>
   );
 };

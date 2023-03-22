@@ -6,7 +6,7 @@ import { createClient } from "./browser";
 import type { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 type SupabaseContext = {
-  username: string | null;
+  username: string | undefined | null;
   supabase: SupabaseClient;
   session: Session | null;
 };

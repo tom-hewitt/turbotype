@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      {username === null && session ? <SignUpModal /> : null}
+      {!username && session ? <SignUpModal /> : null}
       <nav className={styles.navbar}>
         <Logo />
         <Spacer />

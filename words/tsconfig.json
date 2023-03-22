@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.json",   // extend the projects base configuration
+  "include": ["src/**/*"],
   "compilerOptions": {
-    "composite": true
-  }
+    "outDir": "./dist"
+  },
 }

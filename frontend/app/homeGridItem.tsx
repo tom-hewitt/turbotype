@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 import { motion as motion3d } from "framer-motion-3d";
 import Link from "next/link";
 import React, { useState } from "react";
-import { Explorer } from "../components/models/explorer";
+import { Stopwatch } from "../components/models/stopwatch";
 import { RaceCar } from "../components/models/racecar";
-import { anton, inter } from "./layout";
+import { anton, inter } from "./fonts";
 import styles from "./styles.module.css";
 
 export const HomeGridItem: React.FC<{
@@ -179,7 +179,7 @@ export const PracticeButton: React.FC<{ fractionalHeight: number }> = ({
         }}
         animate={isHovered ? "hover" : "initial"}
       >
-        <Explorer scale={2} />
+        <Stopwatch scale={2} />
       </motion3d.group>
     )}
   />

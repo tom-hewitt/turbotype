@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import styles from "./styles.module.css";
 
@@ -10,7 +12,13 @@ import {
   SettingsButton,
   TournamentsButton,
 } from "./homeGridItem";
-import { HomeNavBar } from "../components/navbar";
+import { useSupabase } from "../database/provider";
+import { Logo } from "../components/logo";
+import { Spacer } from "../components/spacer";
+import { LoginButton } from "../components/LoginButton";
+import { SignUpModal } from "../components/SignUpModal";
+import { User } from "../components/User";
+import { Gradient } from "../components/page";
 
 const HomeGridColumn: React.FC<{
   fractionalWidth: number;
@@ -44,10 +52,20 @@ const HomeGrid: React.FC = () => {
 };
 
 export default function Home() {
+  const { session, username } = useSupabase();
+
+  console.log(username, session);
+
   return (
     <div className={styles.page}>
-      <HomeNavBar />
+      {!username && session ? <SignUpModal /> : null}
+      <nav className={styles.navbar}>
+        <Logo />
+        <Spacer />
+        {username ? <User username={username} /> : <LoginButton />}
+      </nav>
       <HomeGrid />
+      <Gradient />
     </div>
   );
 }

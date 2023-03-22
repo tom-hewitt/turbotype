@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@msgpack/msgpack": "^2.8.0",
     "@next/font": "^13.1.6",
     "@react-three/drei": "^9.56.12",
     "@react-three/fiber": "^8.10.1",
+    "@supabase/auth-helpers-nextjs": "^0.5.6",
+    "@turbotype/game": "file:../game",
+    "@turbotype/server": "file:../server",
     "classnames": "^2.3.2",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
@@ -21,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-use-websocket": "^4.2.0",
+    "server-only": "^0.0.1",
     "three": "^0.149.0",
     "typescript": "4.9.3"
   },
@@ -28,6 +33,7 @@
     "@types/node": "18.11.11",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
-    "@types/three": "^0.148.1"
+    "@types/three": "^0.148.1",
+    "encoding": "^0.1.13"
   }
 }

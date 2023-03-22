@@ -1,0 +1,26 @@
+.profile {
+  padding: 10px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.profileName {
+  background-color: #281502;
+  background-image: linear-gradient(to top, #70400d, #281502);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.profileName:hover {
+  background-color: #E45F5E;
+  background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
+  background-size: 100%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}

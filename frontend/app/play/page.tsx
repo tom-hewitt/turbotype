@@ -1,5 +1,5 @@
-import { Game } from "./game";
+import { MultiplayerGame } from "./game";
 
 export default function Play() {
-  return <Game />;
+  return <MultiplayerGame />;
 }

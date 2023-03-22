@@ -1,4 +1,10 @@
-import { readFileSync, writeFileSync } from "fs";
+// this script generates a package containing an array of words
+// the words are sourced from "words.txt"
+// the files generated are "dist/index.js" and "dist/index.d.ts"
+// the script is run at build-time using "npm build"
+
+import { mkdirSync, readFileSync, writeFileSync } from "fs";
+import { join } from "path";
 
 // words.txt is sourced from the Electronic Frontier Foundation (https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases)
 // this word list:
@@ -19,8 +25,16 @@ const lines = fileContents.split("\n");
 // for each line, only keep the section after the first tab
 const words = lines.map((line) => line.split("\t")[1]);
 
-const wordsTypescript = `export const words: string[] = [${words
+const js = `module.exports.words = [${words
   .map((word) => `"${word}"`)
   .join(", ")}];`;
 
-writeFileSync("wordList.ts", wordsTypescript);
+const distPath = join(__dirname, "..", "dist");
+
+mkdirSync(distPath, { recursive: true });
+
+writeFileSync(join(distPath, "index.js"), js, { flag: "w" });
+
+const dts = "export declare const words: string[];";
+
+writeFileSync(join(distPath, "index.d.ts"), dts, { flag: "w" });

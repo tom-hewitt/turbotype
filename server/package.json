@@ -1,0 +1,19 @@
+{
+  "name": "@turbotype/server",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "dev": "nodemon src/matchmaker.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@msgpack/msgpack": "^2.8.0",
+    "@turbotype/game": "file:../game",
+    "ws": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.4",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1"
+  }
+}

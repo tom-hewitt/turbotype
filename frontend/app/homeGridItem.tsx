@@ -10,8 +10,12 @@ import { Stopwatch } from "../components/models/stopwatch";
 import { RaceCar } from "../components/models/racecar";
 import { Gear } from "../components/models/gear";
 import { RaceFlag } from "../components/models/raceflag";
+import { Crown } from "../components/models/crown";
+import { Trophy } from "../components/models/trophy";
+import { PaintBucket } from "../components/models/paintbucket";
 import { anton, inter } from "./fonts";
 import styles from "./styles.module.css";
+import { Environment } from "@react-three/drei";
 
 export const HomeGridItem: React.FC<{
   name: string;
@@ -153,7 +157,25 @@ export const TournamentsButton: React.FC<{ fractionalHeight: number }> = ({
     fractionalHeight={fractionalHeight}
     darkText
     background="linear-gradient(180deg, #EB7070 0%, #FFD89E 0.01%, #FBC16A 91.67%)"
-    model={() => null}
+    model={({ isHovered }) => (
+      <motion3d.group
+        variants={{
+          initial: {
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
+          },
+          hover: {
+            rotateX: -0.2,
+            rotateY: -0.4,
+            scale: 1.05,
+          },
+        }}
+        animate={isHovered ? "hover" : "initial"}
+      >
+        <Trophy scale={2.6} rotation={[0.6, 0.3, 0]} position={[-0.1, -0.6, 0]} />
+      </motion3d.group>
+    )}
   />
 );
 
@@ -229,7 +251,26 @@ export const LeaderboardButton: React.FC<{ fractionalHeight: number }> = ({
     fractionalHeight={fractionalHeight}
     darkText
     background="#FFECE4"
-    model={() => null}
+    model={({ isHovered }) => (
+        <motion3d.group
+          variants={{
+            initial: {
+              rotateX: 0,
+              scale: 1,
+            },
+            hover: {
+              rotateX: 0.35,
+              scale: 1.1,
+            },
+          }}
+          animate={isHovered ? "hover" : "initial"}
+        >
+          {/* <ambientLight intensity={5} color="#ffe037" /> */}
+          <pointLight position={[25, -5, 20]} intensity={10} color="#ffe037" />
+          {/* <pointLight position={[-25, -5, 20]} intensity={10} color="#ffe037" /> */}
+          <Crown scale={1.65} rotation={[0.1, -0.7, 0]} position={[0, 0, -2]} />
+      </motion3d.group>
+    )}
   />
 );
 

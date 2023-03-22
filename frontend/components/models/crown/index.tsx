@@ -5,8 +5,9 @@ Command: npx gltfjsx@6.1.4 crown.glb --transform --types
 
 import * as THREE from 'three'
 import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, useTexture } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { useLoader } from '@react-three/fiber'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -19,11 +20,19 @@ type GLTFResult = GLTF & {
   }
 }
 
+const ToonMaterial: React.FC<{ color: string }> = ({ color }) => {
+  const gradientMap = useTexture("threeTone.jpg");
+
+  return <meshToonMaterial attach="material" color={color} gradientMap={gradientMap} />
+}
+
 export function Crown(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF('/crown-transformed.glb') as unknown as GLTFResult
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Circle.geometry} material={materials['Material_00.001']} position={[0, 1.03, 0]} scale={[1, 0.74, 1]} />
+      <mesh geometry={nodes.Circle.geometry}  position={[0, 1.03, 0]} scale={[1, 0.74, 1]}>
+        <ToonMaterial color="#FFD700" />
+      </mesh>
       <mesh geometry={nodes.Circle_01.geometry} material={materials['Material_01.001']} position={[0.61, 1.09, 0.75]} rotation={[2.38, 0.83, -0.93]} scale={0.23} />
     </group>
   )

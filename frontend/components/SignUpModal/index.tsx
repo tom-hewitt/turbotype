@@ -16,6 +16,10 @@ export const SignUpModal: React.FC = () => {
 
     console.log({ id: session?.user.id, username });
 
+    if (!session) {
+      throw new Error("session is null");
+    }
+
     supabase
       .from("users")
       .insert({ id: session?.user.id, username })

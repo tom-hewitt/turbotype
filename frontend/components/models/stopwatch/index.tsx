@@ -5,8 +5,9 @@ Command: npx gltfjsx@6.1.4 explorer.glb --transform --types
 
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { MeshTransmissionMaterial, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { ToonMaterial } from "../../materials/ToonMaterial";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -38,37 +39,35 @@ export function Stopwatch(props: JSX.IntrinsicElements["group"]) {
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Explorer" position={[0, -0.21, 0]}>
-          <mesh
-            name="Circle003"
-            geometry={nodes.Circle003.geometry}
-            material={materials["Color - Red Body"]}
-          />
-          <mesh
-            name="Circle003_1"
-            geometry={nodes.Circle003_1.geometry}
-            material={materials["Color - Red Dot"]}
-          />
-          <mesh
-            name="Circle003_2"
-            geometry={nodes.Circle003_2.geometry}
-            material={materials["Color - Inner Yellow"]}
-          />
-          <mesh
-            name="Circle003_3"
-            geometry={nodes.Circle003_3.geometry}
-            material={materials["Sliver Metal"]}
-          />
-          <mesh
-            name="Circle003_4"
-            geometry={nodes.Circle003_4.geometry}
-            material={materials["Base Transparent"]}
-          />
+          <mesh name="Circle003" geometry={nodes.Circle003.geometry}>
+            <ToonMaterial color="#b8b8b8" />
+          </mesh>
+          <mesh name="Circle003_1" geometry={nodes.Circle003_1.geometry}>
+            <ToonMaterial color="#4a4a4a" />
+          </mesh>
+          <mesh name="Circle003_2" geometry={nodes.Circle003_2.geometry}>
+            {/* <ToonMaterial color="#ff0000" /> */}
+          </mesh>
+          <mesh name="Circle003_3" geometry={nodes.Circle003_3.geometry}>
+            <ToonMaterial color="#4a4a4a" />
+          </mesh>
+          <mesh name="Circle003_4" geometry={nodes.Circle003_4.geometry}>
+            <MeshTransmissionMaterial
+              distortionScale={0.3}
+              temporalDistortion={0.5}
+              color="#ffffff"
+              background={new THREE.Color(0x839681)}
+              attenuationColor="#ffffff"
+              forceSinglePass
+            />
+          </mesh>
           <mesh
             name="Needles"
             geometry={nodes.Needles.geometry}
-            material={materials["Sliver Metal"]}
             position={[0, 0, 0.04]}
-          />
+          >
+            <ToonMaterial color="#4a4a4a" />
+          </mesh>
         </group>
       </group>
     </group>

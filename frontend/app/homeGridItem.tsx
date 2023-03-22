@@ -15,7 +15,6 @@ import { Trophy } from "../components/models/trophy";
 import { PaintBucket } from "../components/models/paintbucket";
 import { anton, inter } from "./fonts";
 import styles from "./styles.module.css";
-import { Environment } from "@react-three/drei";
 
 export const HomeGridItem: React.FC<{
   name: string;
@@ -100,7 +99,7 @@ export const HomeGridItem: React.FC<{
       </motion.div>
       <div className={styles.canvas}>
         <Canvas style={{ pointerEvents: "none" }} camera={camera}>
-          <ambientLight />
+          {/* <ambientLight /> */}
           <pointLight position={[10, 10, 10]} />
           {model({ isHovered })}
         </Canvas>
@@ -118,7 +117,7 @@ export const PlayButton: React.FC<{ fractionalHeight: number }> = ({
     href="/play"
     fractionalHeight={fractionalHeight}
     largeText
-    background="#FB6A6A"
+    background="#fa5050"
     camera={{
       fov: 45,
       position: [1.1, 0.65, 3],
@@ -163,6 +162,7 @@ export const TournamentsButton: React.FC<{ fractionalHeight: number }> = ({
           initial: {
             rotateX: 0,
             rotateY: 0,
+            rotateZ: 0,
             scale: 1,
           },
           hover: {
@@ -173,7 +173,11 @@ export const TournamentsButton: React.FC<{ fractionalHeight: number }> = ({
         }}
         animate={isHovered ? "hover" : "initial"}
       >
-        <Trophy scale={2.6} rotation={[0.6, 0.3, 0]} position={[-0.1, -0.6, 0]} />
+        <Trophy
+          scale={2}
+          rotation={[0.5, 0.1, -0.2]}
+          position={[0.5, 0.8, 0]}
+        />
       </motion3d.group>
     )}
   />
@@ -203,7 +207,7 @@ export const PracticeButton: React.FC<{ fractionalHeight: number }> = ({
         }}
         animate={isHovered ? "hover" : "initial"}
       >
-        <Stopwatch scale={2} />
+        <Stopwatch position={[0, 0.5, 0]} scale={2.5} />
       </motion3d.group>
     )}
   />
@@ -220,23 +224,54 @@ export const CreateRaceButton: React.FC<{ fractionalHeight: number }> = ({
     darkText
     background="#EFEFEF"
     model={({ isHovered }) => (
-      <motion3d.group
-        variants={{
-          initial: {
-            z: 0,
-            rotateY: 0,
-            rotateX: 0,
-          },
-          hover: {
-            z: 0.4,
-            rotateY: -0.05,
-            rotateX: 0.3,
-          },
-        }}
-        animate={isHovered ? "hover" : "initial"}
+      <group
+        position={[-0.5, 0.5, 0]}
+        scale={0.9}
+        // variants={{
+        //   initial: {
+        //     z: 0,
+        //     rotateY: 0,
+        //     rotateX: 0,
+        //   },
+        //   hover: {
+        //     z: 0.4,
+        //     rotateY: -0.05,
+        //     rotateX: 0.3,
+        //   },
+        // }}
+        // animate={isHovered ? "hover" : "initial"}
       >
-        <RaceFlag scale={2.2} rotation={[0.25, 0.2, 0.2]} position={[-0.1, 0.4, 0]} />
-      </motion3d.group>
+        <motion3d.group
+          variants={{
+            initial: {
+              rotateZ: -0.5,
+              x: 1.7,
+            },
+            hover: {
+              rotateZ: -0.3,
+              x: 1.5,
+            },
+          }}
+          animate={isHovered ? "hover" : "initial"}
+        >
+          <RaceFlag position={[0, 0, -0.2]} rotation={[0, -Math.PI / 2, 0]} />
+        </motion3d.group>
+        <motion3d.group
+          variants={{
+            initial: {
+              rotateZ: 0.5,
+              x: -1.7,
+            },
+            hover: {
+              rotateZ: 0.3,
+              x: -1.5,
+            },
+          }}
+          animate={isHovered ? "hover" : "initial"}
+        >
+          <RaceFlag position={[0, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
+        </motion3d.group>
+      </group>
     )}
   />
 );
@@ -252,23 +287,18 @@ export const LeaderboardButton: React.FC<{ fractionalHeight: number }> = ({
     darkText
     background="#FFECE4"
     model={({ isHovered }) => (
-        <motion3d.group
-          variants={{
-            initial: {
-              rotateX: 0,
-              scale: 1,
-            },
-            hover: {
-              rotateX: 0.35,
-              scale: 1.1,
-            },
-          }}
-          animate={isHovered ? "hover" : "initial"}
-        >
-          {/* <ambientLight intensity={5} color="#ffe037" /> */}
-          <pointLight position={[25, -5, 20]} intensity={10} color="#ffe037" />
-          {/* <pointLight position={[-25, -5, 20]} intensity={10} color="#ffe037" /> */}
-          <Crown scale={1.65} rotation={[0.1, -0.7, 0]} position={[0, 0, -2]} />
+      <motion3d.group
+        variants={{
+          initial: {
+            scale: 1,
+          },
+          hover: {
+            scale: 1.1,
+          },
+        }}
+        animate={isHovered ? "hover" : "initial"}
+      >
+        <Crown scale={2.8} rotation={[0.1, 0, 0]} position={[0.2, 0.7, -2]} />
       </motion3d.group>
     )}
   />
@@ -283,7 +313,27 @@ export const CustomiseButton: React.FC<{ fractionalHeight: number }> = ({
     href="/customise"
     fractionalHeight={fractionalHeight}
     background="#FFABB0"
-    model={() => null}
+    model={({ isHovered }) => (
+      <motion3d.group
+        variants={{
+          initial: {
+            rotateZ: 0,
+            scale: 1,
+          },
+          hover: {
+            rotateZ: -0.3,
+            scale: 1.1,
+          },
+        }}
+        animate={isHovered ? "hover" : "initial"}
+      >
+        <PaintBucket
+          position={[-0.7, 0, 0]}
+          rotation={[0, -1, -1]}
+          scale={2.5}
+        />
+      </motion3d.group>
+    )}
   />
 );
 
@@ -297,21 +347,18 @@ export const SettingsButton: React.FC<{ fractionalHeight: number }> = ({
     background="#6D6D6D"
     model={({ isHovered }) => (
       <motion3d.group
+        rotation={[-0.8, 0, 0]}
         variants={{
           initial: {
-            rotateX: 0,
-            z: 0,
-            scale: 1,
+            rotateZ: 0,
           },
           hover: {
-            rotateX: 0.4,
-            z: 0.4,
-            scale: 1.05,
+            rotateZ: 0.2,
           },
         }}
         animate={isHovered ? "hover" : "initial"}
       >
-        <Gear scale={6.5} rotation={[-3.8, 1 * Math.PI, 1.7]} position={[-0.4, -0.1, 0]} />
+        <Gear scale={4} position={[0.8, 1.7, 0]} />
       </motion3d.group>
     )}
   />

@@ -1,5 +1,11 @@
-"use client";
+import { Heading } from "../../components/heading";
+import { Page } from "../../components/page";
 
 export default function Login() {
-  return <div>LOGIN</div>;
-}
+    return (
+      <Page colour="#FFECE4">
+        <Heading>LOGIN</Heading>
+      </Page>
+    );
+  }
+  

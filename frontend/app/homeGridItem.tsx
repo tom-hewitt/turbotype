@@ -8,6 +8,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Stopwatch } from "../components/models/stopwatch";
 import { RaceCar } from "../components/models/racecar";
+import { Gear } from "../components/models/gear";
+import { RaceFlag } from "../components/models/raceflag";
 import { anton, inter } from "./fonts";
 import styles from "./styles.module.css";
 
@@ -195,7 +197,25 @@ export const CreateRaceButton: React.FC<{ fractionalHeight: number }> = ({
     fractionalHeight={fractionalHeight}
     darkText
     background="#EFEFEF"
-    model={() => null}
+    model={({ isHovered }) => (
+      <motion3d.group
+        variants={{
+          initial: {
+            z: 0,
+            rotateY: 0,
+            rotateX: 0,
+          },
+          hover: {
+            z: 0.4,
+            rotateY: -0.05,
+            rotateX: 0.3,
+          },
+        }}
+        animate={isHovered ? "hover" : "initial"}
+      >
+        <RaceFlag scale={2.2} rotation={[0.25, 0.2, 0.2]} position={[-0.1, 0.4, 0]} />
+      </motion3d.group>
+    )}
   />
 );
 
@@ -234,6 +254,24 @@ export const SettingsButton: React.FC<{ fractionalHeight: number }> = ({
     href="/customise"
     fractionalHeight={fractionalHeight}
     background="#6D6D6D"
-    model={() => null}
+    model={({ isHovered }) => (
+      <motion3d.group
+        variants={{
+          initial: {
+            rotateX: 0,
+            z: 0,
+            scale: 1,
+          },
+          hover: {
+            rotateX: 0.4,
+            z: 0.4,
+            scale: 1.05,
+          },
+        }}
+        animate={isHovered ? "hover" : "initial"}
+      >
+        <Gear scale={6.5} rotation={[-3.8, 1 * Math.PI, 1.7]} position={[-0.4, -0.1, 0]} />
+      </motion3d.group>
+    )}
   />
 );

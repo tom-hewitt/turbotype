@@ -1,9 +1,9 @@
 import { useTexture } from "@react-three/drei";
 
 export const ToonMaterial: React.FC<{ color: string }> = ({ color }) => {
-  const gradientMap = useTexture("threeTone.jpg");
+  // const gradientMap = useTexture("threeTone.jpg");
 
-  console.log(gradientMap);
+  // console.log(gradientMap);
 
   return (
     <meshToonMaterial

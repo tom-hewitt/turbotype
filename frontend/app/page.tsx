@@ -19,6 +19,7 @@ import { LoginButton } from "../components/LoginButton";
 import { SignUpModal } from "../components/SignUpModal";
 import { User } from "../components/User";
 import { Gradient } from "../components/page";
+import { UserOrLogin } from "../components/UserOrLogin";
 
 const HomeGridColumn: React.FC<{
   fractionalWidth: number;
@@ -54,15 +55,13 @@ const HomeGrid: React.FC = () => {
 export default function Home() {
   const { session, username } = useSupabase();
 
-  console.log(username, session);
-
   return (
     <div className={styles.page}>
       {!username && session ? <SignUpModal /> : null}
       <nav className={styles.navbar}>
         <Logo />
         <Spacer />
-        {username ? <User username={username} /> : <LoginButton />}
+        <UserOrLogin />
       </nav>
       <HomeGrid />
       <Gradient />

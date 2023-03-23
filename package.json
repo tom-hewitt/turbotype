@@ -25,5 +25,8 @@
   "scripts": {
     "dev": "concurrently --kill-others \"npm -w words run dev\" \"npm -w game run dev\" \"npm -w frontend run dev\" \"npm -w server run dev\"",
     "build": "npm -w words run build & npm -w game run build & npm -w server run build"
+  },
+  "dependencies": {
+    "react-colorful": "^5.6.1"
   }
 }

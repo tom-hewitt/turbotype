@@ -1,38 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import { Result, ResultTable } from "../../../components/Result";
 import { createClient } from "../../../database/server";
 import { Database } from "../../../database/types";
 import styles from "./styles.module.css";
 
 const PAGE_SIZE = 10;
-
-type LeaderboardResultData =
-  Database["public"]["Functions"]["leaderboard"]["Returns"][0];
-
-const millisecondsToString = (ms: number): string => {
-  const s = ms / 1000;
-  const minutes = Math.floor(s / 60);
-  const seconds = s % 60;
-  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-};
-
-const LeaderboardResult: React.FC<LeaderboardResultData> = ({
-  rank,
-  username,
-  time_ms,
-  wpm,
-}) => {
-  const time = millisecondsToString(time_ms);
-
-  return (
-    <tr>
-      <td className={styles.extratd}>{rank}</td>
-      <td className={styles.td}>{username}</td>
-      <td className={styles.td}>{time}</td>
-      <td className={styles.td}>{wpm}</td>
-    </tr>
-  );
-};
 
 export type Time = "alltime" | "month" | "week" | "day";
 
@@ -124,21 +97,7 @@ export default async function Leaderboard({
   return (
     <div>
       <LeaderboardTimePicker />
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.th}>rank</th>
-            <th className={styles.th}>name</th>
-            <th className={styles.th}>time elapsed</th>
-            <th className={styles.th}>wpm</th>
-          </tr>
-        </thead>
-        <tbody className={styles.text}>
-          {data?.map((result) => (
-            <LeaderboardResult {...result} key={result.rank} />
-          ))}
-        </tbody>
-      </table>
+      <ResultTable results={data!} />
       <LeaderboardPagePicker time={time} page={page} />
     </div>
   );

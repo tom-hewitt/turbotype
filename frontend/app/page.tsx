@@ -62,7 +62,11 @@ export default function Home() {
       <nav className={styles.navbar}>
         <Logo />
         <Spacer />
-        {username ? <User username={username} /> : <LoginButton />}
+        {username ? (
+          <User username={username} id={session!.user.id} />
+        ) : (
+          <LoginButton />
+        )}
       </nav>
       <HomeGrid />
       <Gradient />

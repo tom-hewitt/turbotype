@@ -3,7 +3,10 @@
 import { useSupabase } from "../../database/provider";
 import { UserBadge } from "../UserBadge";
 
-export const User: React.FC<{ username: string }> = ({ username }) => {
+export const User: React.FC<{ username: string; id: string }> = ({
+  username,
+  id,
+}) => {
   const { supabase, session } = useSupabase();
 
   const handleLogout = async () => {
@@ -12,7 +15,7 @@ export const User: React.FC<{ username: string }> = ({ username }) => {
 
   return (
     <div>
-      <UserBadge username={username} />
+      <UserBadge username={username} id={id} />
       {session ? <button onClick={handleLogout}>Logout</button> : null}
     </div>
   );

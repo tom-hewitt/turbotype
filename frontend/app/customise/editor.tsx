@@ -8,7 +8,7 @@ import { RaceCar } from "../../components/models/racecar";
 import styles from "./styles.module.css";
 
 export const Editor: React.FC = () => {
-    const [selectedColor, setSelectedColor] = useState("#000000");
+    const [selectedColor, setSelectedColor] = useState("#b51414");
 
     return <><div className={styles.container}>
     <HexColorPicker color={selectedColor} onChange={setSelectedColor}/>
@@ -26,7 +26,7 @@ export const Editor: React.FC = () => {
     }}>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <pointLight position={[-10, -10, -10]} />
+      {/* <pointLight position={[-10, -10, -10]} /> */}
       <OrbitControls
         enableZoom={false}
         maxDistance={6} 

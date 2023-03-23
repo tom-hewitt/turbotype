@@ -35,7 +35,12 @@ export class MultiplayerRace {
   // TODO: we should probably wait for all clients to confirm that they are connected and have received the wordlist
   startTime: number = Date.now() + 5000;
 
-  constructor(clientConstructors: ClientConstructor[]) {
+  constructor(
+    clientConstructors: ClientConstructor[],
+    onFinish: (chars: number, times: (number | null)[]) => void
+  ) {
+    onFinish(187, [37000, 64000, null, 53000]);
+
     const playerCount = clientConstructors.length;
 
     this.players = clientConstructors.map((clientConstructor, id) => {

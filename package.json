@@ -17,7 +17,8 @@
     "frontend",
     "game",
     "words",
-    "server"
+    "server",
+    "database"
   ],
   "devDependencies": {
     "concurrently": "^7.6.0"

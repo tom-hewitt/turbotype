@@ -36,7 +36,7 @@ const BodyMaterial = () => {
   return <ToonMaterial color="#4a4a4a" />;
 };
 
-export function RaceCar(props: JSX.IntrinsicElements["group"]) {
+export const RaceCar: React.FC<{ color?: string } & JSX.IntrinsicElements["group"]> = ({ color = "#b51414", ...props }) => {
   const { nodes, materials } = useGLTF(
     "/race-transformed.glb"
   ) as unknown as GLTFResult;
@@ -45,7 +45,7 @@ export function RaceCar(props: JSX.IntrinsicElements["group"]) {
     <group {...props} dispose={null}>
       <group position={[0, 0.1, 0]}>
         <mesh geometry={nodes.Mesh_body.geometry}>
-          <ToonMaterial color="#b51414" />
+          <ToonMaterial color={color} />
         </mesh>
         <mesh
           geometry={nodes.Mesh_body_1.geometry}

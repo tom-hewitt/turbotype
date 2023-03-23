@@ -1,0 +1,35 @@
+.container{
+    padding-top: 50px;
+    padding-left: 200px;
+}
+
+.containertext{
+    padding-top: 20px;
+    padding-left: 150px;
+}
+
+.value {
+    border-left: 30px solid #000;
+    padding-left: 10px;
+
+    background-color: #281502;
+    background-image: linear-gradient(to top, #70400d, #281502);
+    background-clip: text;
+
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: "Impact", sans-serif;
+    pointer-events: none;
+}
+
+.canvas {
+    position: absolute;
+    right: 0%;
+    bottom: 1%;
+
+    width: calc(60% + 25px);
+    height: calc(65% + 50px);
+
+    z-index: 1;
+}

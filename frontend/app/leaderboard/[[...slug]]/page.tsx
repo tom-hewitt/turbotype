@@ -97,7 +97,7 @@ export default async function Leaderboard({
   return (
     <div>
       <LeaderboardTimePicker />
-      <ResultTable results={data!} />
+      {data ? <ResultTable results={data!} /> : null}
       <LeaderboardPagePicker time={time} page={page} />
     </div>
   );

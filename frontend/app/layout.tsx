@@ -19,7 +19,7 @@ export default async function RootLayout({
     data: { session },
   } = await supabase.auth.getSession();
 
-  const username: string | null = session
+  const username: string | undefined | null = session
     ? (
         await supabase
           .from("users")
@@ -36,7 +36,11 @@ export default async function RootLayout({
     */}
       <head />
       <body>
-        <SupabaseProvider session={session} username={username}>
+        <SupabaseProvider
+          session={session}
+          username={username}
+          id={session?.user.id}
+        >
           <SupabaseListener serverAccessToken={session?.access_token} />
           {children}
         </SupabaseProvider>

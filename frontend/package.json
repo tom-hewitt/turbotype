@@ -35,6 +35,7 @@
     "@types/react-dom": "18.0.9",
     "@types/three": "^0.148.1",
     "encoding": "^0.1.13",
-    "supabase": "^1.45.1"
+    "supabase": "^1.45.1",
+    "@turbotype/database": "file:../database"
   }
 }

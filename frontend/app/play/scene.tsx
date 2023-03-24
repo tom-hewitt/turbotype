@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from "react";
 import { RaceCar } from "../../components/models/racecar";
 import { useProgress } from "./typing";
 import "./styles.module.css";
-import { Map_1 } from "../../components/models/map_1";
+import { Map_new } from "../../components/models/map_1";
 import {
   BufferGeometry,
   CatmullRomCurve3,
@@ -428,11 +428,13 @@ export const CurveFollower: React.FC<{
 
   useMotionValueEvent(animatedProgress, "change", (latest) => {
     if (ref.current) {
+      latest = (latest + 0.001) % 1;
+
       const position = curve.getPointAt(latest);
 
       ref.current.position.copy(position);
 
-      const tangent = curve.getTangentAt((latest + 0.001) % 1);
+      const tangent = curve.getTangentAt(latest);
 
       ref.current.lookAt(tangent.add(position));
 
@@ -470,7 +472,7 @@ export const GameScene: React.FC<{
 
       {/* <primitive object={line1} /> */}
 
-      <Map_1 position={[0, -2, 0]} scale={10} />
+      <Map_new position={[0, -2, 0]} scale={10} />
       <ambientLight intensity={0.5} />
       <Sky sunPosition={[7, 5, 1]} />
       <spotLight position={[10, 15, 10]} angle={10} />

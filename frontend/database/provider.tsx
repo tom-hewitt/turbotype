@@ -9,6 +9,7 @@ import { Database } from "./types";
 type SupabaseContext = {
   username: string | undefined | null;
   id: string | undefined;
+  color: string | undefined;
   supabase: SupabaseClient<Database>;
   session: Session | null;
 };
@@ -20,16 +21,18 @@ export default function SupabaseProvider({
   session,
   username,
   id,
+  color,
 }: {
   children: React.ReactNode;
   session: Session | null;
   username: string | undefined | null;
   id: string | undefined;
+  color: string | undefined;
 }) {
   const [supabase] = useState(() => createClient());
 
   return (
-    <Context.Provider value={{ username, id, supabase, session }}>
+    <Context.Provider value={{ username, id, supabase, session, color }}>
       <>{children}</>
     </Context.Provider>
   );

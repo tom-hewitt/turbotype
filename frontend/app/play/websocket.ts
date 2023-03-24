@@ -45,7 +45,8 @@ export const useMultiplayerRace = (): {
     if (session) {
       sendMessage(encode([session.access_token, session.refresh_token]));
     }
-  }, []);
+    // eslint-disabled-next-line
+  }, [sendMessage, session]);
 
   const router = useRouter();
 
@@ -72,11 +73,11 @@ export const useMultiplayerRace = (): {
   const sendKeyInput = useCallback(
     (key: string) => {
       // make sure that the race has actually started
-      if (state !== null && Date.now() > state?.startTime) {
+      if (!(state === null) && Date.now() > state?.startTime) {
         sendMessage(key);
       }
     },
-    [sendMessage, state?.startTime]
+    [sendMessage, state === null, state?.startTime]
   );
 
   return { state, sendKeyInput };

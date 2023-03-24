@@ -407,7 +407,11 @@ export const Player: React.FC<{
       <group>
         <RaceCar position={[0, 0, 0]} castShadow />
         {self ? <PerspectiveCamera position={[0, 1, 5]} makeDefault /> : null}
-        <Mini_map scale={0.06} position={[-3.8, 2.5, 0]} rotation={[Math.PI / 2, 0, 0]} />
+        <Mini_map
+          scale={0.06}
+          position={[-3.8, 2.5, 0]}
+          rotation={[Math.PI / 2, 0, 0]}
+        />
       </group>
     </CurveFollower>
   );
@@ -438,6 +442,7 @@ export const CurveFollower: React.FC<{
 
   const animatedProgress = useMotionValue(progress);
 
+  // eslint-disable-next-line
   useEffect(() => updatePosition(progress), []);
 
   useMotionValueEvent(animatedProgress, "change", updatePosition);
@@ -447,7 +452,7 @@ export const CurveFollower: React.FC<{
       duration: 3,
       ease: "easeOut",
     });
-  }, [progress]);
+  }, [progress, animatedProgress]);
 
   return <group ref={ref}>{children}</group>;
 };

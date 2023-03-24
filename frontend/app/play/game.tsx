@@ -48,11 +48,10 @@ export const Game: React.FC<{
           playerID={playerID}
           playerActions={playerActions}
           finishProgress={finishProgress}
+          state={state}
         />
       </div>
-      <div className={styles.hud}>
-        <HUD state={state} />
-      </div>
+      <div className={styles.hud}>{/* <HUD state={state} /> */}</div>
     </div>
   );
 };

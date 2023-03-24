@@ -1,8 +1,8 @@
 "use client";
 
-import { Sky, PerspectiveCamera } from "@react-three/drei";
+import { Sky, PerspectiveCamera, Text3D, Center } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { PlayerAction } from "@turbotype/game";
+import { PlayerAction, TypingState } from "@turbotype/game";
 import React, { useEffect, useRef } from "react";
 import { RaceCar } from "../../components/models/racecar";
 import { useProgress } from "./typing";
@@ -11,6 +11,7 @@ import { Map_new } from "../../components/models/map_1";
 import { CatmullRomCurve3, Vector3 } from "three";
 import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
 import { Mini_map } from "../../components/models/minimap";
+import { ToonMaterial } from "../../components/materials/ToonMaterial";
 
 const CURVES = [
   new CatmullRomCurve3(
@@ -396,24 +397,77 @@ const CURVES = [
 
 export const Player: React.FC<{
   actions: PlayerAction[];
-  self: boolean;
+  state?: TypingState;
   curve: CatmullRomCurve3;
   finishProgress: number;
-}> = ({ actions, self, curve, finishProgress }) => {
+}> = ({ actions, state, curve, finishProgress }) => {
   const progress = useProgress(actions);
 
   return (
     <CurveFollower progress={progress / finishProgress} curve={curve}>
       <group>
         <RaceCar position={[0, 0, 0]} castShadow />
-        {self ? <PerspectiveCamera position={[0, 1, 5]} makeDefault /> : null}
-        <Mini_map
-          scale={0.06}
-          position={[-3.8, 2.5, 0]}
-          rotation={[Math.PI / 2, 0, 0]}
-        />
+        {state !== undefined ? (
+          <>
+            <PerspectiveCamera position={[0, 1, 5]} makeDefault />
+            <Mini_map
+              scale={0.06}
+              position={[-3.8, 2.5, 0]}
+              rotation={[Math.PI / 2, 0, 0]}
+            />
+            <Center position={[0, 3, -3]}>
+              <Word state={state} />
+            </Center>
+          </>
+        ) : null}
       </group>
     </CurveFollower>
+  );
+};
+
+export const Word: React.FC<{ state: TypingState }> = ({ state }) => {
+  if (state === null) {
+    return null;
+  }
+
+  const { word, characterIndex, incorrectCharacterCount } = state;
+
+  const displayWord = word.concat(
+    "-".repeat(
+      Math.max(characterIndex + incorrectCharacterCount - word.length, 0)
+    )
+  );
+
+  return (
+    <group>
+      {displayWord.split("").map((letter, i) => (
+        <Center position={[i * 0.8, 0, 0]}>
+          <Letter
+            letter={letter.toUpperCase()}
+            color={
+              i < characterIndex
+                ? "green"
+                : i < characterIndex + incorrectCharacterCount
+                ? "red"
+                : "#bf8221"
+            }
+          />
+        </Center>
+      ))}
+    </group>
+  );
+};
+
+export const Letter: React.FC<{
+  letter: string;
+  color: string;
+  position?: [number, number, number];
+}> = ({ letter, color, position }) => {
+  return (
+    <Text3D position={position} font="JetBrains Mono ExtraBold_Regular.json">
+      {letter}
+      <ToonMaterial color={color} />
+    </Text3D>
   );
 };
 
@@ -460,15 +514,16 @@ export const CurveFollower: React.FC<{
 export const GameScene: React.FC<{
   playerID: number;
   playerActions: PlayerAction[][];
+  state: TypingState | undefined;
   finishProgress: number;
-}> = ({ playerID, playerActions, finishProgress }) => {
+}> = ({ playerID, playerActions, state, finishProgress }) => {
   return (
     <Canvas camera={{ position: [0, 200, 0], fov: 70, zoom: 1 }}>
       {playerActions.map((actions, id) => (
         <Player
           key={id}
           actions={actions}
-          self={id === playerID}
+          state={playerID === id ? state : undefined}
           curve={CURVES[id]!}
           finishProgress={finishProgress}
           // x={(startX + id) * CAR_SEPARATION}

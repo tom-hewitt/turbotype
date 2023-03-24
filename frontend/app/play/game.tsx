@@ -2,7 +2,6 @@
 
 import { calculateFinishProgress } from "@turbotype/game";
 import React, { useMemo } from "react";
-import { HUD } from "./hud";
 import { GameScene } from "./scene";
 import styles from "./styles.module.css";
 import { useWordState } from "./typing";

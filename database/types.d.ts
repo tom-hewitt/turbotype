@@ -9,26 +9,6 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      cosmetics: {
-        Row: {
-          colour: string;
-          created_at: string | null;
-          type: string;
-          user_id: string;
-        };
-        Insert: {
-          colour?: string;
-          created_at?: string | null;
-          type: string;
-          user_id: string;
-        };
-        Update: {
-          colour?: string;
-          created_at?: string | null;
-          type?: string;
-          user_id?: string;
-        };
-      };
       races: {
         Row: {
           chars: number;
@@ -68,14 +48,17 @@ export interface Database {
       };
       users: {
         Row: {
+          color: string;
           id: string;
           username: string;
         };
         Insert: {
+          color?: string;
           id: string;
           username: string;
         };
         Update: {
+          color?: string;
           id?: string;
           username?: string;
         };

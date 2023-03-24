@@ -14,9 +14,13 @@ export default async function Summary({
 
   const supabase = createClient();
 
-  const { data } = await supabase.rpc("summary", { summary_id });
+  const res = await supabase.rpc("summary", { summary_id });
 
-  console.log(data);
+  console.log(res);
+
+  if (res.data === null) {
+    return <h1>{JSON.stringify(res)}</h1>;
+  }
 
   return (
     <ModelPage
@@ -24,7 +28,7 @@ export default async function Summary({
       content={
         <>
           <Heading>RESULT</Heading>
-          <ResultTable results={data!} />
+          <ResultTable results={res.data} />
         </>
       }
       model={<RaceCar rotation={[0.45, 3, 0]} scale={2.5} />}

@@ -19,13 +19,13 @@ export default async function RootLayout({
     data: { session },
   } = await supabase.auth.getSession();
 
-  const username: string | undefined | null = session
+  const data = session
     ? (
         await supabase
           .from("users")
-          .select("username")
+          .select("username, color")
           .eq("id", session.user.id)
-      ).data?.[0]?.username
+      ).data?.[0]
     : null;
 
   return (
@@ -38,7 +38,8 @@ export default async function RootLayout({
       <body>
         <SupabaseProvider
           session={session}
-          username={username}
+          username={data!.username}
+          color={data!.color}
           id={session?.user.id}
         >
           <SupabaseListener serverAccessToken={session?.access_token} />

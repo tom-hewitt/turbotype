@@ -38,8 +38,8 @@ export default async function RootLayout({
       <body>
         <SupabaseProvider
           session={session}
-          username={data!.username}
-          color={data!.color}
+          username={data?.username}
+          color={data?.color}
           id={session?.user.id}
         >
           <SupabaseListener serverAccessToken={session?.access_token} />

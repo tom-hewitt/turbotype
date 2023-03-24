@@ -16,6 +16,7 @@ import {
   Vector3,
 } from "three";
 import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { Mini_map } from "../../components/models/minimap";
 
 const CURVES = [
   new CatmullRomCurve3(
@@ -412,6 +413,7 @@ export const Player: React.FC<{
       <group>
         <RaceCar position={[0, 0, 0]} castShadow />
         {self ? <PerspectiveCamera position={[0, 1, 5]} makeDefault /> : null}
+        <Mini_map scale={0.06} position={[-3.8, 2.5, 0]} rotation={[Math.PI / 2, 0, 0]} />
       </group>
     </CurveFollower>
   );

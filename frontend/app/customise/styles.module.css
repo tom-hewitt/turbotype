@@ -23,6 +23,36 @@
     pointer-events: none;
 }
 
+.buttoncontainer{
+    padding-top: 30px;
+    padding-left: 250px;
+}
+
+.button {
+    font-size: 35px;
+    border: none;
+    padding: 5px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: "Impact", sans-serif;
+    cursor: pointer;
+  
+    background-image: linear-gradient(to top, #70400d, #281502);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+.button:hover {
+    background-color: #E45F5E;
+    background-image: linear-gradient(to top, #fd7a7a 10%, #E45F5E 90%);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
 .canvas {
     position: absolute;
     right: 0%;

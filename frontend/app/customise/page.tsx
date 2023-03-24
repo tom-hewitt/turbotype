@@ -8,13 +8,19 @@ import { createClient } from "../../database/server";
 export default async function Customise() {
   const supabase = createClient();
 
-  // const { data } = await supabase.from("cosmetics").select("type, colour").eq("user_id", supabase.auth.user)
+  const id = (await supabase.auth.getUser()).data.user?.id;
+
+  if (!id) {
+    return <h1>login first</h1>;
+  }
+
+  const { data } = await supabase.from("users").select("color").eq("id", id).single();
 
   return (
     <Page colour="#FFABB0">
       <Heading>CUSTOMISE</Heading>
       <Subheading>Let's decorate your own car.</Subheading>
-      <Editor />
+      <Editor color={data!.color as string} />
     </Page>
   );
 }

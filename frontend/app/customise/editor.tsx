@@ -5,13 +5,21 @@ import { Canvas } from "@react-three/fiber";
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { RaceCar } from "../../components/models/racecar";
+import { useSupabase } from "../../database/provider";
 import styles from "./styles.module.css";
-import { createClient } from "../../database/server";
-import { Database } from "../../database/types";
 
-export const Editor: React.FC = () => {
-    const [selectedColor, setSelectedColor] = useState("#b51414");
-    const handleSaveClick = () => {}
+export const Editor: React.FC<{ color: string }> = ({ color }) => {
+    const { supabase, id } = useSupabase();
+
+    const [selectedColor, setSelectedColor] = useState(color);
+
+    console.log(selectedColor);
+
+    const handleSaveClick = async () => {
+      const res = await supabase.from("users").update({ color: selectedColor }).eq("id", id);
+
+      console.log(res);
+    };
 
     return <><div className={styles.container}>
     <HexColorPicker color={selectedColor} onChange={setSelectedColor}/>

@@ -1,10 +1,10 @@
 "use client";
 
+import { TypingState } from "@turbotype/game";
 import classNames from "classnames";
 import React from "react";
 import { anton } from "../../fonts";
 import styles from "./styles.module.css";
-
 
 // import { StyleSheet } from "react-native";
 // import classNames from "classnames";
@@ -106,24 +106,25 @@ import styles from "./styles.module.css";
 //   public draw() {
 //     const centerX = this.roadWidth / 2;
 
-
 export const HUD: React.FC<{
-  word: string;
-  characterIndex: number;
-  incorrectCharacterCount: number;
-}> = (props) => {
-  return <Word {...props} />;
+  state: TypingState;
+}> = ({ state }) => {
+  return <Word state={state} />;
 };
 
 const Word: React.FC<{
-  word: string;
-  characterIndex: number;
-  incorrectCharacterCount: number;
-}> = ({
-  word,
-  characterIndex: index,
-  incorrectCharacterCount: incorrectCount,
-}) => {
+  state: TypingState;
+}> = ({ state }) => {
+  if (state === null) {
+    return null;
+  }
+
+  const {
+    word,
+    characterIndex: index,
+    incorrectCharacterCount: incorrectCount,
+  } = state;
+
   const correctPart = word.substring(0, index);
 
   const incorrectPart = word
@@ -145,7 +146,6 @@ const Word: React.FC<{
     </div>
   );
 };
-
 
 const Speedometer: React.FC<{ speed: number }> = ({ speed }) => {
   return (
@@ -185,10 +185,6 @@ const Speedometer: React.FC<{ speed: number }> = ({ speed }) => {
 
 // export default Speedometer;
 
-
-
-
-
 const Ranking = () => {
   const [ranking, setRanking] = useState(1);
 
@@ -213,85 +209,80 @@ const Ranking = () => {
   );
 };
 
-
 class MiniMap {
-    private roadWidth = 20;
-    private roadLength = 100;
-    private playerPosition = 0;
-  
-    public draw() {
-      const centerX = this.roadWidth / 2;
-      const centerY = this.roadLength / 2;
-      const radius = centerY - this.roadWidth;
-  
-      // draw circle
-      this.drawCircle(centerX, centerY, radius);
-  
-      // draw road
-      this.drawRoad(centerX, centerY);
-  
-      // draw player
-      this.drawPlayer(centerX, centerY, this.playerPosition);
-    }
-  
-    private drawCircle(x: number, y: number, r: number) {
-      // code to draw a circle
-    }
-  
-    private drawRoad(x: number, y: number) {
-      // code to draw two vertical side-by-side lines
-    }
-  
-    private drawPlayer(x: number, y: number, position: number) {
-      // code to draw a red dot at the given position on the road
-    }
-  
-    public updatePlayerPosition(newPosition: number) {
-      this.playerPosition = newPosition;
-      this.draw();
-    }
+  private roadWidth = 20;
+  private roadLength = 100;
+  private playerPosition = 0;
+
+  public draw() {
+    const centerX = this.roadWidth / 2;
+    const centerY = this.roadLength / 2;
+    const radius = centerY - this.roadWidth;
+
+    // draw circle
+    this.drawCircle(centerX, centerY, radius);
+
+    // draw road
+    this.drawRoad(centerX, centerY);
+
+    // draw player
+    this.drawPlayer(centerX, centerY, this.playerPosition);
   }
 
+  private drawCircle(x: number, y: number, r: number) {
+    // code to draw a circle
+  }
+
+  private drawRoad(x: number, y: number) {
+    // code to draw two vertical side-by-side lines
+  }
+
+  private drawPlayer(x: number, y: number, position: number) {
+    // code to draw a red dot at the given position on the road
+  }
+
+  public updatePlayerPosition(newPosition: number) {
+    this.playerPosition = newPosition;
+    this.draw();
+  }
+}
 
 class Speedometer1 {
-    private speed = 0;
-    container: any;
-  
-    public draw() {
-      const centerX = this.container.width / 2;
-      const centerY = this.container.height / 2;
-      const radius = Math.min(centerX, centerY);
-  
-      // draw circle
-      this.drawCircle(centerX, centerY, radius);
-  
-      // draw speed
-      this.drawSpeed(centerX, centerY, this.speed);
-    }
-  
-    private drawCircle(x: number, y: number, r: number) {
-      // code to draw a circle
-    }
-  
-    private drawSpeed(x: number, y: number, speed: number) {
-      // code to draw the speed inside the circle
-    }
-  
-    public updateSpeed(newSpeed: number) {
-      this.speed = newSpeed;
-      this.draw();
-    }
+  private speed = 0;
+  container: any;
+
+  public draw() {
+    const centerX = this.container.width / 2;
+    const centerY = this.container.height / 2;
+    const radius = Math.min(centerX, centerY);
+
+    // draw circle
+    this.drawCircle(centerX, centerY, radius);
+
+    // draw speed
+    this.drawSpeed(centerX, centerY, this.speed);
   }
 
+  private drawCircle(x: number, y: number, r: number) {
+    // code to draw a circle
+  }
+
+  private drawSpeed(x: number, y: number, speed: number) {
+    // code to draw the speed inside the circle
+  }
+
+  public updateSpeed(newSpeed: number) {
+    this.speed = newSpeed;
+    this.draw();
+  }
+}
 
 class GameRanking {
-  
-    public draw() {
-      // code to draw the ranking in the top right corner
-    }
-  
-    public updateRanking(newRanking: number) {
-      this.draw();
-    }
+  public draw() {
+    // code to draw the ranking in the top right corner
   }
-  
+
+  public updateRanking(newRanking: number) {
+    this.draw();
+  }
+}

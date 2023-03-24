@@ -1,37 +1,25 @@
-import { WebSocket, WebSocketServer } from "ws";
-import { addSummaryToDatabase } from "./database";
+import { WebSocket } from "ws";
 import { MultiplayerRace } from "./race";
-import { socketClientConstructor } from "./websocket";
 
-const SOCKETS_PER_SESSION = 1;
+const PLAYERS_PER_RACE = 1;
 
-const webSocketServer = new WebSocketServer({ port: 8080 });
-console.log("Opening matchmaking server on port 8080");
+export interface User {
+  id: string | null;
+  socket: WebSocket;
+}
 
-let sockets: WebSocket[] = [];
+let matchmakingPlayers: User[] = [];
 
-const onConnection = (socket: WebSocket) => {
-  sockets.push(socket);
+export const findMatch = (player: User) => {
+  console.log("finding a match");
 
-  if (sockets.length === SOCKETS_PER_SESSION) {
-    const clientConstructors = sockets.map((socket) =>
-      socketClientConstructor(socket)
-    );
+  matchmakingPlayers.push(player);
 
-    new MultiplayerRace(clientConstructors, (chars, times) =>
-      addSummaryToDatabase(
-        chars,
-        [
-          "749a1282-8f8f-421c-bae7-5ef61251557a",
-          null,
-          "04e04175-9e2b-48d0-9c4f-0697cffaedc5",
-        ],
-        times
-      )
-    );
+  if (matchmakingPlayers.length === PLAYERS_PER_RACE) {
+    // create a new race for the matchmaking players
+    new MultiplayerRace([...matchmakingPlayers]);
 
-    sockets = [];
+    // now all the players have found a match, empty the matchmaking players array
+    matchmakingPlayers = [];
   }
 };
-
-webSocketServer.on("connection", onConnection);

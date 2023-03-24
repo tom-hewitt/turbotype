@@ -1,97 +1,176 @@
+import { User } from "./matchmaker";
 import {
-  randomWords,
-  TypingState,
+  ServerToClientMessage,
+  ConnectMessage,
+  ServerToClientMessageType,
+  ActionMessage,
+  FinishedMessage,
+} from "./messages";
+import { WebSocket } from "ws";
+import {
   applyKeyInput,
   PlayerAction,
+  randomWords,
+  TypingState,
 } from "@turbotype/game";
+import { encode } from "@msgpack/msgpack";
+import { addSummaryToDatabase } from "./database";
 
-export interface PlayerClient {
-  onConnect(
-    playerID: number,
-    startTime: number,
-    playerCount: number,
-    list: string[]
-  ): void;
-  onAction(playerID: number, action: PlayerAction): void;
-}
+const COUNTDOWN_SECONDS = 5;
 
-/**
- * a function that creates a PlayerClient, given a `handleKeyInput` callback
- */
-export type ClientConstructor = (
-  handleKeyInput: (key: string) => void
-) => PlayerClient;
+const WORD_COUNT = 10;
 
-interface Player {
-  client: PlayerClient;
+export interface Player extends User {
   state: TypingState;
 }
 
 export class MultiplayerRace {
-  wordList: string[] = randomWords(10);
-  players: Player[] = [];
+  players: Player[];
 
-  // start 5 seconds from when the race is created
-  // TODO: we should probably wait for all clients to confirm that they are connected and have received the wordlist
-  startTime: number = Date.now() + 5000;
+  // maps the indexes of the players that have finished to their finish time
+  finishedPlayers: Map<number, number> = new Map();
 
-  constructor(
-    clientConstructors: ClientConstructor[],
-    onFinish: (chars: number, times: (number | null)[]) => void
-  ) {
-    onFinish(187, [37000, 64000, null, 53000]);
+  // the start time is the current time in ms + the countdown time in ms
+  startTime = Date.now() + COUNTDOWN_SECONDS * 1000;
 
-    const playerCount = clientConstructors.length;
+  // generate the random wordlist when the race is created
+  wordList = randomWords(WORD_COUNT);
 
-    this.players = clientConstructors.map((clientConstructor, id) => {
-      const client = clientConstructor((key) => this.handleKeyInput(id, key));
+  constructor(users: User[]) {
+    console.log(
+      "creating a new race with players:",
+      users.map((user) => user.id)
+    );
 
-      // tell the client their playerID, the start time, and the wordlist
-      client.onConnect(id, this.startTime, playerCount, this.wordList);
+    // convert the users to players by adding giving each one a typing state
+    this.players = users.map((user) => ({
+      ...user,
+      state: {
+        word: this.wordList[0]!,
+        wordIndex: 0,
+        characterIndex: 0,
+        incorrectCharacterCount: 0,
+        events: [],
+      },
+    }));
 
-      return {
-        client,
-        state: {
-          word: this.wordList[0]!,
-          wordIndex: 0,
-          characterIndex: 0,
-          incorrectCharacterCount: 0,
-          events: [],
-        },
-      };
+    // send the connect message to each player
+    this.players.forEach((player, index) =>
+      sendConnectMessage(
+        player,
+        index,
+        this.startTime,
+        this.players.length,
+        this.wordList
+      )
+    );
+
+    // listen for key input from each player
+    this.players.forEach((player, index) => {
+      player.socket.on("message", (message) =>
+        this.handleKeyInput(message.toString(), index)
+      );
     });
   }
+
+  handleKeyInput = (key: string, index: number) => {
+    console.log("received key input:", key);
+
+    if (!this.hasStarted()) {
+      return;
+    }
+
+    const player = this.players[index];
+    if (!player) {
+      throw new Error(`Can't find player ${index}`);
+    }
+
+    // work out the new state, and any new action that has occured
+    const { state, action } = applyKeyInput(player.state, key, this.wordList);
+    player.state = state;
+
+    if (action !== undefined) {
+      console.log(
+        "action for player",
+        index,
+        ":",
+        ["correct letter", "incorrect letter", "correct word"][action]
+      );
+
+      // if a new action occured, broadcast it to all the clients
+      this.players.forEach((player) =>
+        sendActionMessage(player, index, action)
+      );
+    }
+
+    // check if the player has finished
+    if (state === null) {
+      // set the finish time
+      this.finishedPlayers.set(index, Date.now() - this.startTime);
+
+      // check if all the players have finished
+      if (this.finishedPlayers.size === this.players.length) {
+        this.endRace();
+      }
+    }
+  };
 
   hasStarted = (): boolean => {
     return this.startTime !== null && this.startTime < Date.now();
   };
 
-  handleKeyInput = (playerID: number, key: string) => {
-    // make sure the race has actually started
-    if (!this.hasStarted()) {
-      return;
-    }
+  endRace = async () => {
+    const chars = this.wordList.reduce((sum, word) => sum + word.length, 0);
+    const ids = this.players.map((player) => player.id);
+    const times = this.players.map((_, index) =>
+      this.finishedPlayers.get(index)
+    );
 
-    const player = this.players[playerID];
+    const raceID = await addSummaryToDatabase(chars, ids, times);
 
-    // make sure the player exists!
-    if (!player) {
-      throw new Error(`Can't find player ${playerID}`);
-    }
-
-    // save the pre-input state so we can see what changed after
-    const prevState = player.state;
-
-    // work out the new state, and any new action that has occured
-    const { state, action } = applyKeyInput(prevState, key, this.wordList);
-
-    // update the state
-    player.state = state;
-
-    // check if there has been a new event
-    if (action !== undefined) {
-      // broadcast the new event to all the clients
-      this.players.forEach(({ client }) => client.onAction(playerID, action));
-    }
+    this.players.forEach((player) => sendFinishMessage(player, raceID));
   };
 }
+
+/**
+ * encodes and sends a message to the given socket
+ * @param socket
+ * @param message
+ */
+const sendMessage = (socket: WebSocket, message: ServerToClientMessage) => {
+  socket.send(encode(message));
+};
+
+const sendConnectMessage = (
+  user: User,
+  index: number,
+  startTime: number,
+  playerCount: number,
+  wordList: string[]
+) => {
+  const message: ConnectMessage = [
+    ServerToClientMessageType.CONNECT,
+    index,
+    startTime,
+    playerCount,
+    wordList,
+  ];
+
+  sendMessage(user.socket, message);
+};
+
+const sendActionMessage = (user: User, index: number, action: PlayerAction) => {
+  const message: ActionMessage = [
+    ServerToClientMessageType.ACTION,
+    index,
+    action,
+  ];
+
+  sendMessage(user.socket, message);
+};
+
+const sendFinishMessage = (user: User, raceID: string) => {
+  const message: FinishedMessage = [ServerToClientMessageType.FINISHED, raceID];
+
+  sendMessage(user.socket, message);
+};

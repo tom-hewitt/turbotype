@@ -3,10 +3,14 @@ import { PlayerAction } from "@turbotype/game";
 export type ClientToServerMessage = KeyInputMessage;
 export type KeyInputMessage = string;
 
-export type ServerToClientMessage = ConnectMessage | ActionMessage;
+export type ServerToClientMessage =
+  | ConnectMessage
+  | ActionMessage
+  | FinishedMessage;
 export enum ServerToClientMessageType {
-  CONNECT,
-  ACTION,
+  CONNECT = 0,
+  ACTION = 1,
+  FINISHED = 2,
 }
 
 /**
@@ -28,3 +32,8 @@ export type ActionMessage = [
   number,
   PlayerAction
 ];
+
+/**
+ * `[type, playerID, startTime, playerCount, wordList]`
+ */
+export type FinishedMessage = [ServerToClientMessageType.FINISHED, string];

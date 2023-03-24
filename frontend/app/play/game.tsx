@@ -28,7 +28,7 @@ export const Game: React.FC<{
   state: { playerID, startTime, wordList, playerActions },
   sendKeyInput,
 }) => {
-  const { word, characterIndex, incorrectCharacterCount } = useWordState({
+  const state = useWordState({
     wordList,
     sendKeyInput,
     hasRaceStarted: () => Date.now() >= startTime,
@@ -51,11 +51,7 @@ export const Game: React.FC<{
         />
       </div>
       <div className={styles.hud}>
-        <HUD
-          word={word.toUpperCase()}
-          characterIndex={characterIndex}
-          incorrectCharacterCount={incorrectCharacterCount}
-        />
+        <HUD state={state} />
       </div>
     </div>
   );

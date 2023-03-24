@@ -1,11 +1,11 @@
 export { randomWord, randomWords } from "./words";
 
-export interface TypingState {
+export type TypingState = {
   word: string;
   wordIndex: number;
   characterIndex: number;
   incorrectCharacterCount: number;
-}
+} | null;
 
 export enum PlayerAction {
   CORRECT_LETTER = 0,
@@ -36,7 +36,8 @@ export const applyKeyInput = (
   keyInput: string,
   wordList: string[]
 ): KeyInputResult => {
-  if (state.word === "") {
+  // end or start state
+  if (state === null || state.word === "") {
     return { state };
   }
 
@@ -48,17 +49,10 @@ export const applyKeyInput = (
     const isWordComplete = state.characterIndex + 1 === state.word.length;
 
     if (isWordComplete) {
-      // make sure we haven't run out of words
-      // (we shouldn't let this happen in an actual game)
+      // if the user has finished
       if (state.wordIndex + 1 >= wordList.length) {
-        console.error("Ran out of words!");
-
         return {
-          state: {
-            ...state,
-            word: "",
-            characterIndex: 0,
-          },
+          state: null,
           action: PlayerAction.CORRECT_WORD,
         };
       }

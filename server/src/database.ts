@@ -1,8 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { config } from "dotenv";
 import type { Database } from "@turbotype/database";
-
-config();
 
 export const addSummaryToDatabase = async (
   race_chars: number,
@@ -14,7 +11,14 @@ export const addSummaryToDatabase = async (
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  console.log(race_chars, race_user_ids, race_times);
+  console.log(
+    "adding summary to database:\n\tchars:",
+    race_chars,
+    "\n\tids",
+    race_user_ids,
+    "\n\ttimes",
+    race_times
+  );
 
   const result = await supabase.rpc("race_results", {
     race_chars,
@@ -22,7 +26,7 @@ export const addSummaryToDatabase = async (
     race_times,
   });
 
-  console.log("RESULT:", result);
+  console.log("database result:", result);
 
   if (result.data === null) {
     throw new Error(JSON.stringify(result));

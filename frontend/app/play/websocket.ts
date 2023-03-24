@@ -1,11 +1,13 @@
-import { decode } from "@msgpack/msgpack";
+import { decode, encode } from "@msgpack/msgpack";
 import { PlayerAction } from "@turbotype/game";
 import {
   ServerToClientMessage,
   ServerToClientMessageType,
 } from "@turbotype/server";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer } from "react";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { useSupabase } from "../../database/provider";
 
 export type MultiplayerRaceState = {
   playerID: number;
@@ -82,12 +84,30 @@ export const useMultiplayerRace = (): {
 
   const [state, dispatch] = useReducer(multiplayerRaceReducer, null);
 
-  console.log(state);
+  const { session } = useSupabase();
+
+  useEffect(() => {
+    if (session) {
+      console.log("sending access token:", session.access_token);
+      sendMessage(session.access_token);
+
+      console.log("sending refresh token:", session.refresh_token);
+      sendMessage(session.refresh_token);
+    }
+  }, []);
+
+  const router = useRouter();
 
   useEffect(() => {
     parseMessage(lastMessage).then((message) => {
       if (message === null) {
         return;
+      }
+
+      if (message[0] === ServerToClientMessageType.FINISHED) {
+        const raceID = message[1];
+
+        router.push(`/summary/${raceID}`);
       }
 
       dispatch(message);

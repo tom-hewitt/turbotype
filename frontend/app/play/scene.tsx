@@ -441,7 +441,7 @@ export const Word: React.FC<{ state: TypingState }> = ({ state }) => {
   return (
     <group>
       {displayWord.split("").map((letter, i) => (
-        <Center position={[i * 0.8, 0, 0]}>
+        <Center position={[i * 0.8, 0, 0]} key={i}>
           <Letter
             letter={letter.toUpperCase()}
             color={

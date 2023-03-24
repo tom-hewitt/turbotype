@@ -2,8 +2,8 @@
 
 import { Sky, PerspectiveCamera, Text3D, Center } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { PlayerAction, TypingState } from "@turbotype/game";
-import React, { useEffect, useRef } from "react";
+import { calculateProgress, PlayerAction, TypingState } from "@turbotype/game";
+import React, { useEffect, useMemo, useRef } from "react";
 import { RaceCar } from "../../components/models/racecar";
 import { useProgress } from "./typing";
 import "./styles.module.css";
@@ -397,18 +397,19 @@ const CURVES = [
 
 export const Player: React.FC<{
   actions: PlayerAction[];
+  rank?: number;
   state?: TypingState;
   curve: CatmullRomCurve3;
   finishProgress: number;
   color: string;
-}> = ({ actions, state, curve, finishProgress, color }) => {
+}> = ({ actions, state, rank, curve, finishProgress, color }) => {
   const progress = useProgress(actions);
 
   return (
     <CurveFollower progress={progress / finishProgress} curve={curve}>
       <group>
-        <RaceCar position={[0, 0, 0]} color={color} castShadow />
-        {state !== undefined ? (
+        <RaceCar position={[0, 0, 0]} castShadow color={color} />
+        {state !== undefined && rank ? (
           <>
             <PerspectiveCamera position={[0, 1, 5]} makeDefault />
             <Mini_map
@@ -419,6 +420,7 @@ export const Player: React.FC<{
             <Center position={[0, 3, -3]}>
               <Word state={state} />
             </Center>
+            <Ranking rank={rank} position={[3.8, 2.5, 0]} />
           </>
         ) : null}
       </group>
@@ -472,6 +474,20 @@ export const Letter: React.FC<{
   );
 };
 
+export const Ranking: React.FC<{
+  rank: number;
+  position?: [number, number, number];
+}> = ({ rank, position }) => {
+  return (
+    <Center position={position}>
+      <Text3D font="JetBrains Mono ExtraBold_Regular.json">
+        {rank}
+        <ToonMaterial color="#bf8221" />
+      </Text3D>
+    </Center>
+  );
+};
+
 export const CurveFollower: React.FC<{
   progress: number;
   curve: CatmullRomCurve3;
@@ -519,6 +535,16 @@ export const GameScene: React.FC<{
   finishProgress: number;
   playerColors: string[];
 }> = ({ playerID, playerActions, state, finishProgress, playerColors }) => {
+  const rank = useMemo(() => {
+    const progresses = playerActions.map((actions) =>
+      calculateProgress(actions)
+    );
+
+    const sorted = [...progresses].sort((a, b) => b - a);
+
+    return sorted.findIndex((x) => x === progresses[playerID]!) + 1;
+  }, [playerActions]);
+
   return (
     <Canvas camera={{ position: [0, 200, 0], fov: 70, zoom: 1 }}>
       {playerActions.map((actions, index) => (
@@ -526,6 +552,7 @@ export const GameScene: React.FC<{
           key={index}
           actions={actions}
           state={playerID === index ? state : undefined}
+          rank={playerID === index ? rank : undefined}
           curve={CURVES[index]!}
           finishProgress={finishProgress}
           color={playerColors[index]!}

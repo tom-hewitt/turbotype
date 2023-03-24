@@ -1,8 +1,6 @@
 "use client";
 
-import { Html } from "@react-three/drei";
 import { RaceCar } from "../../../components/models/racecar";
-import { ProfileIcon } from "../../../components/profileIcon";
 
 export const Model: React.FC = () => {
   return (

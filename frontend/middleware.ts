@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareSupabaseClient({ req, res });
 
   const {
-    data: { session },
+    data: { session: _session },
   } = await supabase.auth.getSession();
 
   return res;

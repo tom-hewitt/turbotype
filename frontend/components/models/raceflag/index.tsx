@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.1.4 frontend/components/models/raceflag/raceflag_new.glb 
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { ToonMaterial } from "../../materials/ToonMaterial";
@@ -23,9 +23,7 @@ type GLTFResult = GLTF & {
 };
 
 export function RaceFlag(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF(
-    "/raceflag_new-transformed.glb"
-  ) as GLTFResult;
+  const { nodes } = useGLTF("/raceflag_new-transformed.glb") as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <mesh

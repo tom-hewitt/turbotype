@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { createClient } from "./browser";
 
 import type { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "./types";
+import { Database } from "@turbotype/database";
 
 type SupabaseContext = {
   username: string | undefined | null;

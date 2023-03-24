@@ -4,8 +4,8 @@ Command: npx gltfjsx@6.1.4 frontend/components/models/gear/setting.glb --transfo
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import React from "react";
+import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { ToonMaterial } from "../../materials/ToonMaterial";
 
@@ -18,17 +18,10 @@ type GLTFResult = GLTF & {
   };
 };
 
-type ActionName = "CircleAction";
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
-
 export function Gear(props: JSX.IntrinsicElements["group"]) {
-  const group = useRef<THREE.Group>();
-  const { nodes, materials, animations } = useGLTF(
-    "/setting-transformed.glb"
-  ) as GLTFResult;
-  const { actions } = useAnimations<GLTFActions>(animations, group);
+  const { nodes } = useGLTF("/setting-transformed.glb") as GLTFResult;
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group {...props} dispose={null}>
       <group name="Scene">
         <mesh name="Circle" geometry={nodes.Circle.geometry}>
           <ToonMaterial color="#b8b8b8" />

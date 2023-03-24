@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import { Result, ResultTable } from "../../../components/Result";
+import { ResultTable } from "../../../components/Result";
 import { createClient } from "../../../database/server";
-import { Database } from "../../../database/types";
 import styles from "./styles.module.css";
 
 const PAGE_SIZE = 10;
@@ -21,7 +20,7 @@ const getPage = (slug: string | undefined): number => {
   return isNaN(number) ? 0 : number;
 };
 
-export const getTimeAndPage = (
+const getTimeAndPage = (
   slug: string[] | undefined
 ): { time: Time; page: number } => {
   if (slug && isValidTime(slug[0])) {

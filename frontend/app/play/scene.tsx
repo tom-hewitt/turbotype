@@ -8,13 +8,7 @@ import { RaceCar } from "../../components/models/racecar";
 import { useProgress } from "./typing";
 import "./styles.module.css";
 import { Map_new } from "../../components/models/map_1";
-import {
-  BufferGeometry,
-  CatmullRomCurve3,
-  LineBasicMaterial,
-  LineLoop,
-  Vector3,
-} from "three";
+import { CatmullRomCurve3, Vector3 } from "three";
 import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
 
 const CURVES = [

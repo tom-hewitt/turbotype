@@ -1,4 +1,3 @@
-import { Canvas } from "@react-three/fiber";
 import { ReactNode } from "react";
 import { NavBar } from "../navbar";
 import { Model } from "./model";
@@ -20,16 +19,22 @@ export const Page = ({
   );
 };
 
-export const ModelPage: React.FC<{ colour: string, content: ReactNode, model: ReactNode }> = ({ colour, content, model }) => {
+export const ModelPage: React.FC<{
+  colour: string;
+  content: ReactNode;
+  model: ReactNode;
+}> = ({ colour, content, model }) => {
   return (
     <Page colour={colour}>
       <div className={styles.modelPage}>
-      <div className={styles.modelPageContent}>{content}</div>
-      <div className={styles.model}><Model>{model}</Model></div>
+        <div className={styles.modelPageContent}>{content}</div>
+        <div className={styles.model}>
+          <Model>{model}</Model>
+        </div>
       </div>
     </Page>
   );
-}
+};
 
 export const Gradient = () => {
   return (

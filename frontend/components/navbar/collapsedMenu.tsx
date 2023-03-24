@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { NavLink, NavLinks } from ".";
+import { NavLinks } from ".";
 import styles from "./styles.module.css";
 
 export const CollapsedMenu = ({ colour }: { colour: string }) => {

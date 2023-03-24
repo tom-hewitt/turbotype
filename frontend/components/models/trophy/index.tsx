@@ -4,8 +4,8 @@ Command: npx gltfjsx@6.1.4 frontend/components/models/trophy/trophy.glb --transf
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import React from "react";
+import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { ToonMaterial } from "../../materials/ToonMaterial";
 
@@ -20,30 +20,24 @@ type GLTFResult = GLTF & {
   };
 };
 
-type ActionName = "Cube.016Action";
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
-
 export function Trophy(props: JSX.IntrinsicElements["group"]) {
-  const group = useRef<THREE.Group>();
-  const { nodes, materials, animations } = useGLTF(
-    "/trophy-transformed.glb"
-  ) as GLTFResult;
-  const { actions } = useAnimations<GLTFActions>(animations, group);
+  const { nodes } = useGLTF("/trophy-transformed.glb") as GLTFResult;
+
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group {...props} dispose={null}>
       <group name="Scene">
         <group name="Cube016">
           <mesh
             name="Cube053"
             geometry={nodes.Cube053.geometry}
-            material={materials["Silver Metal"]}
+            // material={materials["Silver Metal"]}
           >
             <ToonMaterial color="#bf8221" />
           </mesh>
           <mesh
             name="Cube053_1"
             geometry={nodes.Cube053_1.geometry}
-            material={materials["Color - Red Base"]}
+            // material={materials["Color - Red Base"]}
           >
             <ToonMaterial color="black" />
           </mesh>

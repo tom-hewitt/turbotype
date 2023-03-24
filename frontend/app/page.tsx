@@ -15,9 +15,7 @@ import {
 import { useSupabase } from "../database/provider";
 import { Logo } from "../components/logo";
 import { Spacer } from "../components/spacer";
-import { LoginButton } from "../components/LoginButton";
 import { SignUpModal } from "../components/SignUpModal";
-import { User } from "../components/User";
 import { Gradient } from "../components/page";
 import { UserOrLogin } from "../components/UserOrLogin";
 

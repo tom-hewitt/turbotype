@@ -1,23 +1,9 @@
 import { Heading } from "../../../components/heading";
-import { ModelPage, Page } from "../../../components/page";
+import { ModelPage } from "../../../components/page";
 import { Subheading } from "../../../components/subheading";
 import styles from "./styles.module.css";
-import { Canvas } from "@react-three/fiber";
-import { ProfileIcon } from "../../../components/profileIcon";
-import { RaceCar } from "../../../components/models/racecar";
-import { Html } from "@react-three/drei";
 import { Model } from "./model";
 import { createClient } from "../../../database/server";
-
-interface User {
-  rank: number;
-  time: string;
-  wpm: number;
-  averwpm: number;
-  races: number;
-}
-
-const user: User[] = [];
 
 export default async function Profile({
   params,
@@ -41,7 +27,7 @@ export default async function Profile({
       colour="#FFFFFF"
       content={
         <>
-          <Heading>{result.data.username.toUpperCase()}'S PROFILE</Heading>
+          <Heading>{result.data.username.toUpperCase()}</Heading>
           <table className={styles.table}>
             <tbody>
               <tr>

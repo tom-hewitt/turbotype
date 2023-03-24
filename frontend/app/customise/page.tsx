@@ -1,7 +1,7 @@
 import { Heading } from "../../components/heading";
 import { Page } from "../../components/page";
 import { Subheading } from "../../components/subheading";
-import React from 'react';
+import React from "react";
 import { Editor } from "./editor";
 import { createClient } from "../../database/server";
 
@@ -14,12 +14,16 @@ export default async function Customise() {
     return <h1>login first</h1>;
   }
 
-  const { data } = await supabase.from("users").select("color").eq("id", id).single();
+  const { data } = await supabase
+    .from("users")
+    .select("color")
+    .eq("id", id)
+    .single();
 
   return (
     <Page colour="#FFABB0">
       <Heading>CUSTOMISE</Heading>
-      <Subheading>Let's decorate your own car.</Subheading>
+      <Subheading>lets decorate your car</Subheading>
       <Editor color={data!.color as string} />
     </Page>
   );

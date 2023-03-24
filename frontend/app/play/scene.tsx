@@ -424,9 +424,7 @@ export const CurveFollower: React.FC<{
 }> = ({ progress, curve, children }) => {
   const ref = useRef<THREE.Group | null>(null);
 
-  const animatedProgress = useMotionValue(progress);
-
-  useMotionValueEvent(animatedProgress, "change", (latest) => {
+  const updatePosition = (latest: number) => {
     if (ref.current) {
       latest = (latest + 0.001) % 1;
 
@@ -440,7 +438,13 @@ export const CurveFollower: React.FC<{
 
       ref.current.rotation.y += Math.PI;
     }
-  });
+  };
+
+  const animatedProgress = useMotionValue(progress);
+
+  useEffect(() => updatePosition(progress), []);
+
+  useMotionValueEvent(animatedProgress, "change", updatePosition);
 
   useEffect(() => {
     animate(animatedProgress, progress, {

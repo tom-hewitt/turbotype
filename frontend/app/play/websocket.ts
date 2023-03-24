@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer } from "react";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { useSupabase } from "../../database/provider";
+import { multiplayerRaceReducer } from "./actions";
 
 export type MultiplayerRaceState = {
   playerID: number;
@@ -30,52 +31,6 @@ const parseMessage = async (
   });
 };
 
-const replaceAt = <T>(array: T[], index: number, newValue: T): T[] => {
-  return [...array.slice(0, index), newValue, ...array.slice(index + 1)];
-};
-
-const multiplayerRaceReducer = (
-  state: MultiplayerRaceState | null,
-  message: ServerToClientMessage
-): MultiplayerRaceState | null => {
-  switch (message[0]) {
-    case ServerToClientMessageType.CONNECT: {
-      const [_, playerID, startTime, playerCount, wordList] = message;
-
-      return {
-        playerID,
-        startTime,
-        wordList,
-        playerActions: [...Array(playerCount).fill([])],
-      };
-    }
-    case ServerToClientMessageType.ACTION: {
-      const [_, playerID, action] = message;
-
-      if (state === null) {
-        throw new Error("Couldn't connect to server");
-      }
-
-      const actions = state.playerActions[playerID];
-
-      if (actions === undefined) {
-        throw new Error(`Couldn't find player ${playerID}`);
-      }
-
-      return {
-        ...state,
-        playerActions: replaceAt(state.playerActions, playerID, [
-          ...actions,
-          action,
-        ]),
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
 export const useMultiplayerRace = (): {
   state: MultiplayerRaceState | null;
   sendKeyInput: (key: string) => void;
@@ -88,11 +43,7 @@ export const useMultiplayerRace = (): {
 
   useEffect(() => {
     if (session) {
-      console.log("sending access token:", session.access_token);
-      sendMessage(session.access_token);
-
-      console.log("sending refresh token:", session.refresh_token);
-      sendMessage(session.refresh_token);
+      sendMessage(encode([session.access_token, session.refresh_token]));
     }
   }, []);
 
@@ -104,15 +55,19 @@ export const useMultiplayerRace = (): {
         return;
       }
 
+      console.log(message);
+
       if (message[0] === ServerToClientMessageType.FINISHED) {
         const raceID = message[1];
+
+        console.log(`/summary/${raceID}`);
 
         router.push(`/summary/${raceID}`);
       }
 
       dispatch(message);
     });
-  }, [lastMessage, dispatch]);
+  }, [lastMessage, dispatch, router]);
 
   const sendKeyInput = useCallback(
     (key: string) => {

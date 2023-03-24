@@ -128,7 +128,10 @@ export class MultiplayerRace {
 
     const raceID = await addSummaryToDatabase(chars, ids, times);
 
+    console.log("sending race ID:", raceID);
     this.players.forEach((player) => sendFinishMessage(player, raceID));
+
+    this.players.forEach((player) => player.socket.removeAllListeners());
   };
 }
 

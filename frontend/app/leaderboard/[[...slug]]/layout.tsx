@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Heading } from "../../../components/heading";
-import { Page } from "../../../components/page";
+import { ModelPage, Page } from "../../../components/page";
 import styles from "./styles.module.css";
+import {Crown,} from "../../../components/models/crown";
 
 export default function LeaderboardLayout({
   children, // will be a page or nested layout
@@ -11,9 +12,6 @@ export default function LeaderboardLayout({
   params: { slug: string[] };
 }) {
   return (
-    <Page colour="#FFECE4">
-      <Heading>LEADERBOARD</Heading>
-      {children}
-    </Page>
+    <ModelPage colour="#FFECE4" content={<><Heading>LEADERBOARD</Heading>{children}</>}model={<Crown rotation={[3.1,3.1,3.15]} scale={2.3} />}/>
   );
 }

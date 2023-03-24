@@ -2,9 +2,8 @@ import Link from "next/link";
 import React from "react";
 import { anton } from "../../app/fonts";
 import { Logo } from "../logo";
-import { ProfileIcon } from "../profileIcon";
 import { Spacer } from "../spacer";
-import { Text } from "../text";
+import { UserOrLogin } from "../UserOrLogin";
 import { CollapsedMenu } from "./collapsedMenu";
 import styles from "./styles.module.css";
 
@@ -18,12 +17,7 @@ export const NavBar = ({ colour }: { colour: string }) => {
         <NavLinks />
       </div>
       <Spacer />
-      <Link href="/profile/" className={styles.profile}>
-        <span className={styles.profileName}>
-          <Text>Adam</Text>
-        </span>
-        <ProfileIcon />
-      </Link>
+      <UserOrLogin />
       <CollapsedMenu colour={colour} />
     </nav>
   );

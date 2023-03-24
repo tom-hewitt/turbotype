@@ -5,6 +5,7 @@ const PLAYERS_PER_RACE = 1;
 
 export interface User {
   id: string | null;
+  color: string;
   socket: WebSocket;
 }
 

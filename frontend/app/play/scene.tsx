@@ -400,13 +400,14 @@ export const Player: React.FC<{
   state?: TypingState;
   curve: CatmullRomCurve3;
   finishProgress: number;
-}> = ({ actions, state, curve, finishProgress }) => {
+  color: string;
+}> = ({ actions, state, curve, finishProgress, color }) => {
   const progress = useProgress(actions);
 
   return (
     <CurveFollower progress={progress / finishProgress} curve={curve}>
       <group>
-        <RaceCar position={[0, 0, 0]} castShadow />
+        <RaceCar position={[0, 0, 0]} color={color} castShadow />
         {state !== undefined ? (
           <>
             <PerspectiveCamera position={[0, 1, 5]} makeDefault />
@@ -516,16 +517,18 @@ export const GameScene: React.FC<{
   playerActions: PlayerAction[][];
   state: TypingState | undefined;
   finishProgress: number;
-}> = ({ playerID, playerActions, state, finishProgress }) => {
+  playerColors: string[];
+}> = ({ playerID, playerActions, state, finishProgress, playerColors }) => {
   return (
     <Canvas camera={{ position: [0, 200, 0], fov: 70, zoom: 1 }}>
-      {playerActions.map((actions, id) => (
+      {playerActions.map((actions, index) => (
         <Player
-          key={id}
+          key={index}
           actions={actions}
-          state={playerID === id ? state : undefined}
-          curve={CURVES[id]!}
+          state={playerID === index ? state : undefined}
+          curve={CURVES[index]!}
           finishProgress={finishProgress}
+          color={playerColors[index]!}
           // x={(startX + id) * CAR_SEPARATION}
         />
       ))}

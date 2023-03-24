@@ -15,6 +15,7 @@ export type MultiplayerRaceState = {
   startTime: number;
   wordList: string[];
   playerActions: PlayerAction[][];
+  playerColors: string[];
 };
 
 const parseMessage = async (

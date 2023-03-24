@@ -35,11 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 // import { decode } from "@msgpack/msgpack";
 var dotenv_1 = require("dotenv");
 var ws_1 = require("ws");
 var authentication_1 = require("./authentication");
+var database_1 = require("./database");
 var matchmaker_1 = require("./matchmaker");
 // configure the env variables
 (0, dotenv_1.config)();
@@ -47,17 +48,27 @@ var matchmaker_1 = require("./matchmaker");
 var webSocketServer = new ws_1.WebSocketServer({ port: 8080 });
 console.log("Opening game server on port 8080");
 var onConnection = function (socket) { return __awaiter(void 0, void 0, void 0, function () {
-    var id;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var id, color, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 console.log("new connection");
                 return [4 /*yield*/, (0, authentication_1.authenticateWebsocket)(socket)];
             case 1:
-                id = _a.sent();
+                id = _b.sent();
                 console.log("id:", id);
+                if (!id) return [3 /*break*/, 3];
+                return [4 /*yield*/, (0, database_1.getColorFromDatabase)(id)];
+            case 2:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                _a = "#b51414";
+                _b.label = 4;
+            case 4:
+                color = _a;
                 // find a race match for the user
-                (0, matchmaker_1.findMatch)({ id: id, socket: socket });
+                (0, matchmaker_1.findMatch)({ id: id, socket: socket, color: color });
                 return [2 /*return*/];
         }
     });

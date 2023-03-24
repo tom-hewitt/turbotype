@@ -24,7 +24,7 @@ export const Game: React.FC<{
   state: MultiplayerRaceState;
   sendKeyInput: (key: string) => void;
 }> = ({
-  state: { playerID, startTime, wordList, playerActions },
+  state: { playerID, startTime, wordList, playerActions, playerColors },
   sendKeyInput,
 }) => {
   const state = useWordState({
@@ -48,6 +48,7 @@ export const Game: React.FC<{
           playerActions={playerActions}
           finishProgress={finishProgress}
           state={state}
+          playerColors={playerColors}
         />
       </div>
       <div className={styles.hud}>{/* <HUD state={state} /> */}</div>

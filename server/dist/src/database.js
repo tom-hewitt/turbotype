@@ -35,20 +35,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.addSummaryToDatabase = void 0;
+exports.__esModule = true;
+exports.addSummaryToDatabase = exports.getColorFromDatabase = void 0;
 var supabase_js_1 = require("@supabase/supabase-js");
+var supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+var getColorFromDatabase = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, supabase
+                    .from("users")
+                    .select("color")
+                    .eq("id", id)
+                    .single()];
+            case 1:
+                res = _a.sent();
+                if (res.data === null) {
+                    throw new Error(JSON.stringify(res));
+                }
+                return [2 /*return*/, res.data.color];
+        }
+    });
+}); };
+exports.getColorFromDatabase = getColorFromDatabase;
 var addSummaryToDatabase = function (race_chars, race_user_ids, race_times) { return __awaiter(void 0, void 0, void 0, function () {
-    var supabase, result;
+    var result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
                 console.log("adding summary to database:\n\tchars:", race_chars, "\n\tids", race_user_ids, "\n\ttimes", race_times);
                 return [4 /*yield*/, supabase.rpc("race_results", {
                         race_chars: race_chars,
                         race_user_ids: race_user_ids,
-                        race_times: race_times,
+                        race_times: race_times
                     })];
             case 1:
                 result = _a.sent();

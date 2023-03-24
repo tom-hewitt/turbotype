@@ -2,6 +2,7 @@
 import { config } from "dotenv";
 import { WebSocket, WebSocketServer } from "ws";
 import { authenticateWebsocket } from "./authentication";
+import { getColorFromDatabase } from "./database";
 import { findMatch } from "./matchmaker";
 
 // configure the env variables
@@ -19,8 +20,10 @@ const onConnection = async (socket: WebSocket) => {
 
   console.log("id:", id);
 
+  const color = id ? await getColorFromDatabase(id) : "#b51414";
+
   // find a race match for the user
-  findMatch({ id, socket });
+  findMatch({ id, socket, color });
 };
 
 webSocketServer.on("connection", onConnection);

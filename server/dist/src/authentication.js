@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.authenticateTokens = exports.authenticateWebsocket = void 0;
 var msgpack_1 = require("@msgpack/msgpack");
 var supabase_js_1 = require("@supabase/supabase-js");
@@ -82,7 +82,7 @@ var authenticateTokens = function (access_token, refresh_token) { return __await
                 console.log("authenticating session");
                 return [4 /*yield*/, supabase.auth.setSession({
                         access_token: access_token,
-                        refresh_token: refresh_token,
+                        refresh_token: refresh_token
                     })];
             case 1:
                 res = _a.sent();

@@ -14,10 +14,11 @@ export enum ServerToClientMessageType {
 }
 
 /**
- * `[type, playerID, startTime, playerCount, wordList]`
+ * `[type, wordList, playerID, startTime, playerCount, playerColors]`
  */
 export type ConnectMessage = [
   ServerToClientMessageType.CONNECT,
+  string[],
   number,
   number,
   number,

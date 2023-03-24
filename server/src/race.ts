@@ -54,6 +54,8 @@ export class MultiplayerRace {
       },
     }));
 
+    const playerColors = users.map((user) => user.color);
+
     // send the connect message to each player
     this.players.forEach((player, index) =>
       sendConnectMessage(
@@ -61,6 +63,7 @@ export class MultiplayerRace {
         index,
         this.startTime,
         this.players.length,
+        playerColors,
         this.wordList
       )
     );
@@ -149,14 +152,16 @@ const sendConnectMessage = (
   index: number,
   startTime: number,
   playerCount: number,
+  playerColors: string[],
   wordList: string[]
 ) => {
   const message: ConnectMessage = [
     ServerToClientMessageType.CONNECT,
+    wordList,
     index,
     startTime,
     playerCount,
-    wordList,
+    playerColors,
   ];
 
   sendMessage(user.socket, message);

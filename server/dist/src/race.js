@@ -46,7 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.MultiplayerRace = void 0;
 var messages_1 = require("./messages");
 var game_1 = require("@turbotype/game");
@@ -123,11 +123,12 @@ var MultiplayerRace = /** @class */ (function () {
                 wordIndex: 0,
                 characterIndex: 0,
                 incorrectCharacterCount: 0,
-                events: [],
+                events: []
             } })); });
+        var playerColors = users.map(function (user) { return user.color; });
         // send the connect message to each player
         this.players.forEach(function (player, index) {
-            return sendConnectMessage(player, index, _this.startTime, _this.players.length, _this.wordList);
+            return sendConnectMessage(player, index, _this.startTime, _this.players.length, playerColors, _this.wordList);
         });
         // listen for key input from each player
         this.players.forEach(function (player, index) {
@@ -147,13 +148,14 @@ exports.MultiplayerRace = MultiplayerRace;
 var sendMessage = function (socket, message) {
     socket.send((0, msgpack_1.encode)(message));
 };
-var sendConnectMessage = function (user, index, startTime, playerCount, wordList) {
+var sendConnectMessage = function (user, index, startTime, playerCount, playerColors, wordList) {
     var message = [
         messages_1.ServerToClientMessageType.CONNECT,
+        wordList,
         index,
         startTime,
         playerCount,
-        wordList,
+        playerColors,
     ];
     sendMessage(user.socket, message);
 };

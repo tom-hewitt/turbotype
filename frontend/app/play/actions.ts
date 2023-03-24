@@ -10,13 +10,15 @@ export const multiplayerRaceReducer = (
 ): MultiplayerRaceState | null => {
   switch (message[0]) {
     case ServerToClientMessageType.CONNECT: {
-      const [_, playerID, startTime, playerCount, wordList] = message;
+      const [_, wordList, playerID, startTime, playerCount, playerColors] =
+        message;
 
       return {
         playerID,
         startTime,
         wordList,
         playerActions: [...Array(playerCount).fill([])],
+        playerColors,
       };
     }
     case ServerToClientMessageType.ACTION: {

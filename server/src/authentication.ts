@@ -49,9 +49,13 @@ export const authenticateTokens = async (
   access_token: string,
   refresh_token: string
 ): Promise<string | null> => {
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_PUBLIC_KEY) {
+    throw new Error("env variables not defined");
+  }
+
   const supabase = createClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_PUBLIC_KEY!
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_PUBLIC_KEY
   );
 
   console.log("authenticating session");

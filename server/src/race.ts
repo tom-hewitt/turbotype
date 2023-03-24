@@ -18,7 +18,7 @@ import { addSummaryToDatabase } from "./database";
 
 const COUNTDOWN_SECONDS = 5;
 
-const WORD_COUNT = 10;
+const WORD_COUNT = 25;
 
 export interface Player extends User {
   state: TypingState;

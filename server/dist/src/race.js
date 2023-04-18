@@ -53,7 +53,7 @@ var game_1 = require("@turbotype/game");
 var msgpack_1 = require("@msgpack/msgpack");
 var database_1 = require("./database");
 var COUNTDOWN_SECONDS = 5;
-var WORD_COUNT = 10;
+var WORD_COUNT = 25;
 var MultiplayerRace = /** @class */ (function () {
     function MultiplayerRace(users) {
         var _this = this;

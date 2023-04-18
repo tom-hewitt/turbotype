@@ -32,11 +32,13 @@ const parseMessage = async (
   });
 };
 
-export const useMultiplayerRace = (): {
+export const useMultiplayerRace = (
+  url: string
+): {
   state: MultiplayerRaceState | null;
   sendKeyInput: (key: string) => void;
 } => {
-  const { lastMessage, sendMessage } = useWebSocket("ws://localhost:8080");
+  const { lastMessage, sendMessage } = useWebSocket(url);
 
   const [state, dispatch] = useReducer(multiplayerRaceReducer, null);
 

@@ -7,8 +7,8 @@ import styles from "./styles.module.css";
 import { useWordState } from "./typing";
 import { MultiplayerRaceState, useMultiplayerRace } from "./websocket";
 
-export const MultiplayerGame: React.FC = () => {
-  const { state, sendKeyInput } = useMultiplayerRace();
+export const MultiplayerGame: React.FC<{ url: string }> = ({ url }) => {
+  const { state, sendKeyInput } = useMultiplayerRace(url);
 
   if (state === null) {
     return <h1>Waiting for players...</h1>;

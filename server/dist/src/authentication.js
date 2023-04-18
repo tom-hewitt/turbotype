@@ -78,6 +78,9 @@ var authenticateTokens = function (access_token, refresh_token) { return __await
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                if (!process.env.SUPABASE_URL || !process.env.SUPABASE_PUBLIC_KEY) {
+                    throw new Error("env variables not defined");
+                }
                 supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLIC_KEY);
                 console.log("authenticating session");
                 return [4 /*yield*/, supabase.auth.setSession({
